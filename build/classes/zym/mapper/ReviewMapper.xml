@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zym.mapper.ReviewMapper">
+<resultMap type="zym.domain.Review" id="review">
+	<id property="ReviewId" column="ReviewId"/>
+	<result property="Title" column="Title"/>
+	<result property="ReviewNews" column="ReviewNews"/>
+	<result property="ReviewTime" column="ReviewTime"/>
+	<association property="UserId" column="UserId" select="getUser" javaType="zym.domain.User">
+	</association>
+	<association property="MovieId" column="MovieId" select="getMovie" javaType="zym.domain.Movie">
+	</association>
+</resultMap>
+	<select id="selReviewByUser" resultMap="review">
+		select * from Review where UserId=#{UserId}
+	</select>
+	<select id="getUser" resultType="zym.domain.User">
+		select * from user where userid=#{UserId}
+	</select>
+	<select id="getMovie" resultType="zym.domain.Movie">
+		select * from movie where movieId=#{MovieId}
+	</select>
+	
+	<delete id="deleteReviewById">
+		delete from review where reviewid=#{ReviewId}
+	</delete>
+</mapper>

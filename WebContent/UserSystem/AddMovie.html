@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		 <link href="../css/bootstrap.min.css" title="" rel="stylesheet" />
+	<link title="orange" href="../css/login.css" rel="stylesheet" type="text/css" />
+		 <link rel="stylesheet" href="../css/pintuer.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    
+		<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+		<script type="text/javascript">
+			function tj(){
+				
+				$.ajax({
+					type:"post",
+					url:"/fsMovieSystem/AddMovieController.ssm",
+					async:true,
+					data:new FormData($('#lm')[0]),
+					xhr:function(){
+						xhrupload=$.ajaxSettings.xhr();
+						if(xhrupload.upload){
+							xhrupload.upload.addEventListener('progress',hd,false);
+						}
+						return xhrupload;
+					},
+					success:function(response){
+                          console.log(response)
+                          if(response.result=="success"){
+                          	alert("上传成功")
+                          	location.href="Umovie.html";
+                          }else{
+                          	alert("上传成功")
+                          	location.href="Umovie.html";
+                          }
+					},
+					cache:false,
+					contentType:false,
+					processData:false
+				});
+			}
+			function hd(e){
+				if(e.lengthComputable){
+					$("progress").attr({
+						value:e.loaded,
+						max:e.total
+					});
+					var percent=e.loaded/e.total*100;
+					$("#progress").html(e.loaded+"/"+e.total+"bytes.."+percent.toFixed(2)+"%");
+				}
+			}
+			function cb(e){
+				var temp=e.value;
+				var dot=temp.split(".");
+				if(dot[1]==undefined){
+					alert("格式不对");
+					return;
+				}else{
+					if(dot[1]=="jpg"||dot[1]=="jpeg"||dot[1]=="gif"||dot[1]=="png"){}
+					else{
+						alert("格式不对");
+						return;
+					}
+				}
+				var reader=new FileReader();//文件读取
+				var imgid="";
+				if(e.getAttribute("id")=="f1"){
+					imgid="#image1";
+				}
+				if(e.getAttribute("id")=="f2"){
+					imgid="#image2";
+				}
+				reader.onload=function(ex){
+					$(imgid).attr("src",ex.target.result);
+				}
+				reader.readAsDataURL(e.files[0]);
+			}
+			
+			
+		</script>
+	</head>
+	<body>
+		<form action="/movie/upload.ssm.do" method="post" enctype="multipart/form-data">  
+ 			电影名称:<input type="text"  name="movieName" /><br />
+			主演名称:<input type="text"  name="movieActor" /><br />
+			导演名称:<input type="text"  name="movieDirector" /><br />
+			上映日期:<input type="date"  name="movieDate" /><br />
+			影片类型:<input type="text"  name="movieType" /><br />
+			影片国家:<input type="text"  name="country" /><br /> 
+			影片时长:<input type="text"  name="movieTime" /><br />
+			影片简介:<textarea  name="movieInformation"  style="width: 100px; height: 100px;"></textarea><br />  
+ 			上传海报:<input type="file" name="images" onchange="cb(this)" id="f1"/>
+ 			<input type="submit">  
+ 		</form>  
+		
+		
+		<!--<form  action="/fsMovieSystem/AddMovieController.ssm" method="post" enctype="multipart/form-data" id="lm">
+		电影名称:<input type="text"  name="movieName" /><br />
+		主演名称:<input type="text"  name="movieActor" /><br />
+		导演名称:<input type="text"  name="movieDirector" /><br />
+		上映日期:<input type="date"  name="movieDate" /><br />
+		影片类型:<input type="text"  name="movieType" /><br />
+		影片国家:<input type="text"  name="country" /><br /> 
+		影片时长:<input type="text"  name="movieTime" /><br />
+		影片简介:<textarea  name="movieInformation"  style="width: 100px; height: 100px;"></textarea><br />
+		上传海报:<input type="file" name="images" onchange="cb(this)" id="f1"/>
+		<img src="" id="image1" width="200"/><br/>
+		</form>
+		上传进度：<progress></progress><br>
+			<p id="progress">0字节</p>
+			<p id="info"></p>
+		<input type="button" class="dl" value="添加影片" onclick="tj()" style="width: 120px; height: 50px; font-size: 20px; margin-left: 20px;" ></input> -->
+	</body>
+</html>

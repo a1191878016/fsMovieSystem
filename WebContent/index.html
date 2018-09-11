@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
+		<link type="text/css" rel="stylesheet" href="css/iview.css" />
+		<style type="text/css">
+			#bd{
+				width: 1200px;
+				height: 1200px;
+				margin: 0 auto;
+				text-align: center;
+				background-color: #F0F0F0;
+				
+			}
+			.table_head{
+				height: 70px;
+				font-weight: 100;
+				font-size: 22px;
+				padding-left: 120px;
+				padding-top: 30px;
+				/*
+				 * 颜色渐变
+				 */
+				background: -webkit-linear-gradient(right,#F6A607,#EB540D);
+				color: #FEFEFF; 
+			}
+			#middle{
+				margin-top: 10px;
+				height: 900px;
+				
+			}
+			#left{
+				margin-left: 20px;
+				width: 530px;
+				height: 900px;
+				float: left;
+				
+			}
+			#left_head{
+				height: 40px;
+				background-color: white;
+				font-size: 24px;
+				text-align: left;
+				padding-left: 20px;
+			}
+			.title{
+				background-color: #ED6B09;
+				color: #FEFEFF; 
+			}
+			#right{
+				margin-left: 20px;
+				width: 620px;
+				height: 900px;
+				float: left;
+		
+			}
+			#right_one{
+				height: 50px;
+				background-color: white;
+				
+			}
+			#right_title{
+				width: 620px;
+				height: 40px;
+				margin-top: 10px; 
+				background-color: white;
+			}
+			
+			#right_two{
+				width: 620px;
+				height: 100%;
+				background-color: #FFFFFF;
+			}
+			#right_two th{
+				height: 40px;
+				font-size: 18px;
+				font-weight: 100;
+				background-color: #FCE9E2;
+			}
+			.search_btn{
+				width: 70px; 
+				height: 35px; 
+				font-size: 16px; 
+				margin-left: 15px;
+			}
+			td{
+				height: 45px;
+				font-size: 14px;
+			}
+			th{
+				font-weight: 100;
+			}
+			p{
+				font-weight: 100;
+				font-size: 20px; 
+				margin-left: 10px;
+				padding-top: 5px; 
+				float: left;
+			}
+		
+		</style>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" src="js/iview.min.js"></script>
+		<script type="text/javascript">
+			var copd_vue;
+			var mxzqg_vue;
+			var right_one;
+			var right_two;
+			$(function(){
+				copd_vue_model();
+				mxzqg_vue_model();
+				right_one_model();
+				right_two_model();
+				copd_vue.loadDate();
+				$("tr:odd").css("background-color","#ffffff"); 
+				$("tr:even").css("background-color","#f8f8f8");
+			})
+			
+			function right_two_model(){
+				right_two=new Vue({
+					el:"#right_two",
+					data:{
+						patient:[
+							{"Id":"10902197","sex":"1","age":"23","smoke":"1","hospital":"上海交通大学医学院附属仁济医院(西部)"},
+							{"Id":"39010944","sex":"0","age":"42","smoke":"0","hospital":"上海交通大学医学院附属上海儿童医学中心"},
+							{"Id":"50109103","sex":"1","age":"16","smoke":"1","hospital":"上海交通大学医学院附属仁济医院(西部)"},
+							{"Id":"90190390","sex":"0","age":"75","smoke":"0","hospital":"上海市胸科医院"},
+							{"Id":"21002995","sex":"1","age":"43","smoke":"0","hospital":"复旦大学医学院附属岳阳医院(门诊部)"},
+							{"Id":"50109291","sex":"0","age":"22","smoke":"0","hospital":"上海市第一肺科医院"},
+							{"Id":"50109210","sex":"1","age":"72","smoke":"1","hospital":"上海交通大学医学院附属瑞金医院"},
+							{"Id":"60109291","sex":"0","age":"54","smoke":"1","hospital":"上海市第一人民医院"}
+						]
+					}
+				})
+			}
+			
+			function right_one_model(){
+				right_one=new Vue({
+					el:"#right_one",
+					data:{
+						value:""
+					}
+				})
+			}
+			
+			
+			function copd_vue_model(){
+				copd_vue=new Vue({
+					el:"#copd_vue",
+					data:{
+//						copd:[
+//							{"copd":"GOLD-I 吸烟","now":"200","future":"(150-400)","now_bai":"20%","future_bai":"(15%-40%)"},
+//							{"copd":"GOLD-I 不吸烟","now":"400","future":"(600-850)","now_bai":"40%","future_bai":"(60%-85%)"},
+//							{"copd":"GOLD-II 吸烟","now":"200","future":"(150-400)","now_bai":"20%","future_bai":"(15%-40%)"},
+//							{"copd":"GOLD-II 不吸烟","now":"400","future":"(600-850)","now_bai":"40%","future_bai":"(60%-85%)"},
+//							{"copd":"GOLD-III 吸烟","now":"50","future":"(45-120)","now_bai":"16%","future_bai":"(15%-40%)"},
+//							{"copd":"GOLD-III 不吸烟","now":"50","future":"(120-255)","now_bai":"16%","future_bai":"(60%-85%)"},
+//							{"copd":"GOLD-IV 吸烟","now":"30","future":"(30-80)","now_bai":"15%","future_bai":"(15%-40%)"},
+//							{"copd":"GOLD-IV 不吸烟","now":"30","future":"(120-170)","now_bai":"15%","future_bai":"(60%-85%)"}
+//						]
+						copd:[]
+					},
+//				data:{
+//              		columns1: [
+//                  		{
+//                      		title: 'COPD',
+//                      		key: 'Copd'
+//                  		},
+//                  		{
+//                      		title: '当前/',
+//                      		key: 'Now'
+//                  		},
+//                  		{
+//                      		title: '目标人数',
+//                      		key: 'Future'
+//                  		},
+//                  		{
+//                      		title: '当前/',
+//                      		key: 'Now_Bai'
+//                  		},
+//                  		{
+//                     		 	title: '目标人数',
+//                      		key: 'Future_Bai'
+//                  		}
+//              		],
+//              		data1: [
+//             		     	{
+//                  	    	Copd: 'GOLD-I 吸烟',
+//                      		Now: "200",
+//                      		Future: '(150-400)',
+//                      		Now_Bai: '20%',
+//                      		Future_Bai:"(15%-40%)"
+//                  		},
+//                  		{
+//                  	    	Copd: 'GOLD-I 不吸烟',
+//                      		Now: "200",
+//                      		Future: '(150-400)',
+//                      		Now_Bai: '20%',
+//                      		Future_Bai:"(15%-40%)"
+//                  		}
+//              		]	
+//      	},
+        	methods:{
+        		loadDate:function(){
+        			$.ajax({
+        				type:"post",
+        				url:"/fsMovieSystem/hospital.ssm",
+        				async:true,
+        				success:function(response){
+        					console.log(response);
+        					copd_vue.copd=response;
+        				}
+        			});
+        		}
+        		
+        		
+//      		rowClassName:function(row, index){
+////              	if (index === 0) {
+////                  	return 'demo-table-info-row';
+////              	}
+//              	return '';
+//          	}
+				
+        	}
+    		})
+		}
+			
+			function mxzqg_vue_model(){
+				mxzqg_vue=new Vue({
+					el:"#mxzqg_vue",
+					data:{
+						mxzqg:[
+							{"mxzqgy":"慢性支气管炎 吸烟","now":"50","future":"45-120","now_bai":"16%","future_bai":"15%-40%"},
+							{"mxzqgy":"慢性支气管炎 不吸烟","now":"50","future":"120-255","now_bai":"16%","future_bai":"60%-85%"}
+						]
+					}
+				})
+			}
+			
+		</script>
+	</head>
+	<body>
+		<div id="bd">
+			<div id="head"  class="table_head">
+				人员详情
+			</div>
+			<div id="middle">
+				<div id="left">
+					<div id="left_head" >
+						<label>招募详情</label>
+					</div>
+					<div id="copd_vue">
+						<table id="copd" style="font-size: 18px; " cellspacing="0"  >
+							<thead >
+								<tr>
+									<th width="180px" class="title" >COPD</th>
+									<th class="title">当前/</th>
+									<th width="150px" class="title" style="text-align: left;">目标人数</th>
+									<th class="title">当前/</th>
+									<th class="title" width="117px" style="text-align: left;">目标人数</th>
+								</tr>	
+							</thead>
+							<tbody>
+								<tr v-for="(c,index) in copd">
+									<td style="color: #EA823C;">{{c.copd}}</td>
+									<td>{{c.now}}/</td>
+									<td style="text-align: left;">{{c.future}}</td>
+									<td>{{c.now_bai}}/</td>
+									<td style="text-align: left;">{{c.future_bai}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<!-- <i-table :row-class-name="rowClassName" stripe :columns="columns1" :data="data1" ></i-table>-->
+					</div>
+					<div id="mxzqg_vue" style="font-size: 18px; "  >
+						<table id="mxzqg" cellspacing="0"  >
+							<thead >
+								<tr>
+									<th width="180px" class="title">慢性支气管炎</th>
+									<th class="title">当前/</th>
+									<th width="150px" class="title" style="text-align: left;">目标人数</th>
+									<th class="title">当前/</th>
+									<th class="title" width="117px" style="text-align: left;">目标人数</th>
+								</tr>
+								<tr></tr>
+							</thead>
+							<tbody>
+								<tr v-for="(m,index) in mxzqg">
+									<td style="color: #EA823C;">{{m.mxzqgy}}</td>
+									<td>{{m.now}}/</td>
+									<td style="text-align: left;">({{m.future}})</td>
+									<td>{{m.now_bai}}/</td>
+									<td style="text-align: left;">({{m.future_bai}})</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+				<div id="right">
+					<div id="right_one" >
+						<Icon type="ios-search" style="margin-left: -80px; margin-top: 10px; margin-right: -4px;width: 35px; height: 35px; background-color:#F8F8F8;" size="24"></Icon>
+						<input  class="search" v-model="value"  placeholder="搜索患者编号" style=" width: 300px; height: 35px; background-color:#F8F8F8; border: none;" ></i-input>
+						<button class="search_btn">清除</button>
+						<button class="search_btn">搜索</button>
+					</div>
+					<div id="right_title">
+						<p>COPD/COLD-I</p>
+						<p style="float: right; margin-right: 10px; color: #B3B3B3; font-size: 18px; ">当前招募人数：8人</p>
+					</div>
+					<div id="right_two">
+						<table width="600px"style="margin-left: 10px;" cellspacing="0">
+							<thead >
+								<tr>
+									<th>病人编号</th>
+									<th>性别</th>
+									<th>年龄</th>
+									<th>是否吸烟</th>
+									<th>所属医院</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="p in patient">
+									<td width="20%">{{p.Id}}</td>
+									<td width="20" v-if="p.sex==='1'">男</td>
+									<td width="20" v-else>女</td>
+									<td width="20">{{p.age}}</td>
+									<td width="20" v-if="p.smoke==='1'"><Icon size="30" type="ios-checkmark-empty"></Icon></td>
+									<td width="15" v-else><Icon size="30" type="ios-close-empty"></Icon></td>
+									<td width="25">{{p.hospital}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div> 
+		</div>  
+	</body> 
+</html>

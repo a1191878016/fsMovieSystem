@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zym.mapper.UserDao">
+	
+	
+	
+	<select id="Login" resultType="zym.domain.User">
+		select * from user where LoginName=#{LoginName} and Password=#{Password}
+	</select>
+
+	<insert id="BuyerRegister" parameterType="zym.domain.User" >
+		insert into user values(default,#{user.LoginName},#{user.Password},#{user.UserName},#{user.UserSex},
+					#{user.UserPhone},#{user.UserEmail},default,default)
+	</insert>
+	<!-- 查询用户信息 -->
+	<select id="SelUserAll" resultType="zym.domain.User">
+		Select * FROM USER WHERE USERID=#{UserId};
+	</select>
+	<!-- 修改用户信息 -->
+	<update id="UpdUserNews" parameterType="zym.domain.User">
+		update USER 
+		SET
+		USERNAME=#{user.UserName},
+		UserSex=#{user.UserSex},
+		UserPhone=#{user.UserPhone},
+		UserEmail=#{user.UserEmail}
+		WHERE
+		UserId=#{user.UserId} 
+	</update>
+</mapper>

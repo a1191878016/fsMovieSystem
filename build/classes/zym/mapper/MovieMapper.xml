@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zym.mapper.MovieMapper">
+	
+	<select id="selectAllMovie" resultType="zym.domain.Movie">
+		select * from movie where IsGoing=0
+	</select>
+	
+	<select id="selectMovieById" resultType="zym.domain.Movie">
+		select * from movie where MovieId=#{MovieId}
+	</select>
+	
+	<delete id="delMovieById">
+		delete from movie where movieid=#{MovieId};
+	</delete>
+	
+	<update id="updMovieNews" parameterType="zym.domain.Movie">
+		update Movie
+		SET
+		MOVIENAME=#{m.MovieName},
+		COUNTRY=#{m.Country},
+		MOVIEACTOR=#{m.MovieActor},
+		MOVIEDIRECTOR=#{m.MovieDirector},
+		MOVIETYPE=#{m.MovieType},
+		MOVIETIME=#{m.MovieTime},
+		MOVIEINFORMATION=#{m.MovieInformation},
+		MOVIEDATE=#{m.MovieDate}
+		WHERE
+		MOVIEID=#{m.MovieId}
+	</update>
+	
+	<select id="selectMovieLike" resultType="zym.domain.Movie" parameterType="String">
+		select * from movie where moviename like CONCAT('%',#{movieName},'%')
+	</select>
+	
+	<insert id="insertMovie" parameterType="zym.domain.Movie">
+		insert into movie values(default,#{m.MovieName},#{m.MovieActor},#{m.MovieDirector},#{m.MovieDate},
+			#{m.MovieType},default,#{m.MoviePhoto},#{m.MovieInformation},#{m.Country},#{m.MovieTime})
+	</insert>
+</mapper>

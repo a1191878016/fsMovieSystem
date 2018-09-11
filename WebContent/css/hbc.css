@@ -1,0 +1,797 @@
+@charset "UTF-8";
+body,h2,h3,h4,h5,h6,hr,p,dl,dt,dd,ul,ol,li,pre,form,button,input,textarea,th,td {margin:0;padding:0;}
+body,button,input,select,textarea {font:12px/1 "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;_font:12px/1 microsoft yahei,arial,"Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;background:#fff;}
+h4 {+padding-bottom:3px!important;padding-top:1px!important;}
+h5 {+padding-bottom:1px!important;padding-top:1px!important;}
+ul,ol,li{list-style:none;}
+img{ border:0;vertical-align:top;}
+em,i{font-style:normal;}
+.clear{clear:both;height:0px;overflow:hidden;}
+.clear1{ height:1px;}
+
+a {text-decoration:none;color:#4180cf;}
+
+#header {
+	position:fixed;
+	width:100%;
+	height:88px;
+	z-index:200;
+}
+#header.fancybox-margin {margin-right:0!important;}
+#top_bar {background:#181818;font-size:12px;color:#fff;height:32px;}
+#top_bar.isIE {background:#fff5a0;color:#000;border-top:1px solid #808080;border-bottom:1px solid #808080;font-family:Arial, Helvetica, sans-serif;text-align:center;padding:6px;height:16px;+hegiht:32px;+line-hegiht:32px;+padding-bottom:8px;}
+#top_bar.isIE a {color:#03F;}
+#top_bar.isIE a:hover {color:#c30;}
+#nav {display:block;margin:0 auto;padding:0;height:32px;overflow:hidden;width:960px;}
+#nav, #nav li {display:block;list-style-type:none;}
+#nav li {float:right;width:110px;margin-left:10px;}
+#nav p {font-size:12px;color:#fff;display:block;padding:9px 20px;no-repeat;padding-top:11px\9;}
+#nav li:hover {background:#282828;}
+#nav a {font-size:12px;color:#fff;display:block;padding:9px 20px;background:url("../img/nav-arrow.png")/*tpa=http://www.hbcinemas.com.cn/img/nav-arrow.png*/ 5px 11px no-repeat;padding-top:11px\9; }
+#nav li ul {position:absolute;display:none;background:#181818;margin:0;padding:0;margin-top:-1px;}
+#nav li:hover ul {display:block;}
+#nav li ul li {float:none;background:#282828;margin:0;height:30px;}
+#nav li ul li a {background-image:none;padding:5px 12px;}
+#nav li li a:hover {background-color:#585858;}
+#nav li li span {display:inline-block;background:#da0010;color:#fff;font-size:12px;font-family:Arial, Helvetica, sans-serif;padding:2px 5px 1px 5px;-webkit-border-radius: 8px;-moz-border-radius: 8px;border-radius: 8px;}
+#nav li.hotline {float:right;height:32px;margin:0;padding:0;width:138px;background:url("../img/hotline.png")/*tpa=http://www.hbcinemas.com.cn/img/hotline.png*/ no-repeat right center;margin-right:12px;}
+
+#menu_bar {height:56px;overflow:hidden;background:#b51423 url("../img/menu-bg.png")/*tpa=http://www.hbcinemas.com.cn/img/menu-bg.png*/ repeat-x  0 0;}
+#menu_con {width:960px;margin:0 auto;}
+
+#hbc_logo {float:left;width:126px;height:56px;margin-right:20px;}
+
+/*hack IE   */
+#menu {width:600px;float:left;overflow:hidden;}
+#menu, #menu li {display:block;list-style-type:none;margin:0;padding:0;}
+#menu li {float:left;width:100px;text-align:center;}
+#menu a, #menu_right a, #menu_right span {font-size:14px;color:#fff;display:block;padding:20px 18px;}
+#menu a {padding:21px 18px;}
+#menu a:hover, #menu_right a:hover, #menu a.cur {background:#da0010;}
+
+#menu_right {float:right;width:250px;text-align:right;}
+#menu_right a,#menu_right span {margin-top:0;float:right;}
+#menu_right span{width:120px;font-size:12px;text-align:right;padding-left:0;padding-right:0;margin-right:10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+#menu_right span.username_box {text-overflow:ellipsis;}
+#menu_right span.diver {width:8px;height:32px;padding:0;margin:12px 0 0 0;background:url("../img/menu-right-diver.png")/*tpa=http://www.hbcinemas.com.cn/img/menu-right-diver.png*/ no-repeat center center;} 
+#menu_right a:hover {padding:4px 8px;margin:16px 10px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+
+#footer {border-top:5px solid #d21624; background:#000 url("../img/rebel.png")/*tpa=http://www.hbcinemas.com.cn/img/rebel.png*/ repeat;}
+#footer_con {width:960px;margin:0 auto;padding-top:20px;padding-bottom:30px;}
+.footer_sound_fx {width:850px;height:55px;margin:10px auto 20px auto;background:url("../img/footer-sound-fx.jpg")/*tpa=http://www.hbcinemas.com.cn/img/footer-sound-fx.jpg*/ no-repeat;}
+#footer_con p {line-height:2.2em;color:#fff;margin:0;padding:0;}
+#footer_con p a {color:#fff;}
+#footer_con p a:hover {color:#cf000f;}
+.footer_social_sina {display:inline-block;padding-left:36px;background:url("../img/social-icons.png")/*tpa=http://www.hbcinemas.com.cn/img/social-icons.png*/ no-repeat left top;line-height:36px;margin:8px;}
+/*
+<div class="ad_bar" style="background:url(img/temp/ad-left-1x150.png) repeat-x 0 0;">
+<div class="ad_bar_left"></div>
+<div class="ad_bar_right" style="background:url(img/temp/ad-right-1x150.png) repeat-x 0 0;"></div>
+<div class="ad_img"><img src="img/temp/ad-900x150.png" width="900" height="150" /></div>
+</div>
+
+*/
+.ad_bar {width:100%;min-width:960px;height:150px;overflow:hidden;}
+.ad_bar_left {float:left;width:50%;height:150px;}
+.ad_bar_right {float:right;width:50%;height:150px;}
+.ad_img {position:absolute;height:150px;min-width:960px;width:100%;text-align:center;}
+
+
+
+.hbc_home_header {padding-top:88px;background:#4578b1 url("../img/showcase-background.jpg")/*tpa=http://www.hbcinemas.com.cn/img/showcase-background.jpg*/ no-repeat center 238px;}
+#hbc_showcase {height:550px;overflow:hidden;border-bottom:1px solid #fff;}
+
+#hbc_showcase_tab {width:900px;height:70px;overflow:hidden;margin:0 auto;text-align:center;}
+#hbc_showcase_tab a {display:block;float:left;width:450px;height:70px;text-align:center;line-height:70px;background:none;font-size:18px;font-weight:bold;color:#fff;}
+#hbc_showcase_tab a:hover, #hbc_showcase_tab a.cur {background:url("../img/showcase-tab-bg.jpg")/*tpa=http://www.hbcinemas.com.cn/img/showcase-tab-bg.jpg*/ no-repeat center bottom;}
+.hbc_showcase_box {width:924px;margin:0 auto;}
+.hbc_showcase_box li, .hbc_showcase_box ul {display:block;margin:0;padding:0;list-style-type:none;background:none;}
+.hbc_showcase_box ul {width:950spx;overflow:hidden;}
+.hbc_showcase_box li.poster_thumb {width:300px;height:420px;padding:0;border:1px solid #52687c;float:left;background:url("../img/avatar-300x420.png")/*tpa=http://www.hbcinemas.com.cn/img/avatar-300x420.png*/ no-repeat;}
+
+
+
+.hbc_showcase_box li a.btn_red_s {position:absolute;margin:300px;z-index:2;margin-left:80px;width:50px;text-align:center;display:block;display:none;}
+.poster_thumb_mask {text-align:center;display:none;position:absolute;width:300px;height:420px;background:url("../img/poster-thumb-mask-bg.png")/*tpa=http://www.hbcinemas.com.cn/img/poster-thumb-mask-bg.png*/ repeat;}
+.movie_name {display:block;margin-top:90px;color:#fff;height:70px;overflow:hidden;line-height:1.5em;text-align:center;font-size:24px;margin-left:30px;margin-right:30px;}
+
+.movie_name:hover {color:#cf000f;}
+.movie_gerne {display:block;color:#fff;text-align:center;font-size:14px;margin-top:30px;}
+.btn_red_s {display:inline-block;padding:9px 50px;background:#cf000f;color:#fff;margin-top:85px;font-size:18px;}
+.btn_red_s:hover {background:#b1000d;}
+.btn_red_s:active {background:#cf000f;}
+.home_middle_con {width:960px;margin:0 auto;}
+.guideline {width:100%;min-width:960px;margin:0 auto;text-align:right;background:#fff url("../img/guideline-bg.png")/*tpa=http://www.hbcinemas.com.cn/img/guideline-bg.png*/ no-repeat center center;height:158px;}
+.guideline a {display:inline-block;margin:31px 42PX 31px 0px;background:#5ec0e9 url("../img/guideline-btn-arrow.png")/*tpa=http://www.hbcinemas.com.cn/img/guideline-btn-arrow.png*/ no-repeat 10px center;padding:9px 24px 9px 36px;color:#fff;font-size:14px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+.guideline a:hover {background:#c80514 url("../img/guideline-btn-arrow-over.png")/*tpa=http://www.hbcinemas.com.cn/img/guideline-btn-arrow-over.png*/ no-repeat 10px center;}
+.container {padding-bottom:180px;background:#fff;}
+
+.exclusive_card {width:960px;margin:20px auto;height:198px;background:url("../img/exclusive-card.jpg")/*tpa=http://www.hbcinemas.com.cn/img/exclusive-card.jpg*/ no-repeat right 30px;}
+.exclusive_card_con {margin-left:30px;margin-right:240px;}
+.exclusive_card h3 {font-size:24px;color:#333;font-weight:normal;line-hegiht:1.8em;padding-bottom:8px;padding-top:8px;}
+.exclusive_card p {font-size:14px;line-height:24px;margin-top:8px;color:#585858;}
+.exclusive_card a {color:#333;display:inline-block;padding-right:24px;background:url("../img/arrow-right-18.png")/*tpa=http://www.hbcinemas.com.cn/img/arrow-right-18.png*/ no-repeat right 4px;}
+.exclusive_card a:hover {color:#cf000f;background-position:right -96px;}
+.exclusive_card .h-30 {background:url("../img/dotted-line.png")/*tpa=http://www.hbcinemas.com.cn/img/dotted-line.png*/ repeat-x center top;}
+
+#features-pager {text-align:center;margin:20px 0;}
+#features-pager a {display:inline-block;font-size:24px;margin:0 60px;color:#333;padding:8px 0;padding-bottom:11px;}
+#features-pager a:hover {color:#cf000f;}
+#features-pager a.active{border-bottom:3px solid #cf000f;padding-bottom:8px;}
+.features-slider, .features-slider li {display:block;marging:0;padding:0;width:918px;}
+.features-slider li p {display:block;background:#c80514 url("../img/feature-text-logo.png")/*tpa=http://www.hbcinemas.com.cn/img/feature-text-logo.png*/ no-repeat right center;color:#fff;font-size:18px;height:100px;padding:0;margin:0;}
+.features-slider li p span {line-height:1.8em;display:inline-block;margin:12px 200px 12px 20px;}
+
+#pricingtable {width:918px;margin:0 auto;}
+#pricingtable table {border:1px solid #cfcac5;border-right:none;}
+
+#pricingtable td {font-size:14px;font-weight:bold;color:#585858;text-align:center;line-height:2em;padding:2px;background:#fff;border-right:1px solid #cfcac5;}
+#pricingtable tr.first td {padding-top:20px;color:#000;}
+#pricingtable tr.last td {padding:20px 0 28px;border-bottom:3px solid #c80514;}
+#pricingtable tr.gift td {color:#d62831;font-size:18px;}
+#pricingtable th {background:#f5f5f5;padding:20px 0 12px;border-top:1px solid #fff;border-right:1px solid #cfcac5;}
+#pricingtable h5 {font-size:18px;color:#000;font-weight:normal;line-height:1.5em;}
+#pricingtable h5 span {display:block;color:#d93e39;font-family:Tahoma, Arial, Helvetica, sans-serif;font-size:24px;}
+#pricingtable h5 em {font-size:12px;color:#585858;font-style:normal;}
+
+#pricingtable .btn_red_big {font-size:14px;line-height:1em;padding:9px 26px;}
+
+#pricingtable div.featured_table {width:242px;position:absolute;margin-left:-1px;margin-top:-50px;}
+#pricingtable div.featured_table tr.highlight td {padding:0;height:58px;margin:0;text-align:left;vertical-align:top;}
+#pricingtable div.featured_table tr.highlight strong {display:block;position:absolute;margin:0;margin-left:-11px;padding:20px 0 20px;color:#fff;text-align:center;background:url("../img/price-highlight.png")/*tpa=http://www.hbcinemas.com.cn/img/price-highlight.png*/ no-repeat center top;width:262px;font-size:18px;}
+
+/*HOME PAGE CITY LIST*/
+#cities {border-top:1px solid #388faa;background:#84cfdc url("../img/city-bg.png")/*tpa=http://www.hbcinemas.com.cn/img/city-bg.png*/ repeat-x left bottom;height:405px;}
+h2.select_city {font-size:30px;font-weight:normal;color:#fff;margin:0px;padding:28px;text-align:center;}
+#cities_list {width:960px;margin:0 auto;overflow:hidden;}
+
+#cities_list dl,#cities_list dt,#cities_list dd {display:block;line-height:1.4em;margin:0;padding:0;}
+#cities_list dl {float:left;width:66px;height:66px;background:url("../img/city-round-bg.png")/*tpa=http://www.hbcinemas.com.cn/img/city-round-bg.png*/ no-repeat;color:#fff;overflow:hidden;margin:60px 4px 4px 4px;}
+#cities_list dt {font-size:16px;clolor:#fff;margin-top:23px;text-align:center;}
+#cities_list dd {display:none;font-size:12px;clolor:#585858;margin-top:5px;text-align:center;}
+#cities_list dl.cur a {color:#fff;display:inline-block;padding:1px 2px;}
+#cities_list dl.cur a:hover {color:#fff;background:#ff3d4c;}
+#cities_list dl.cur {width:198px;height:198px;background:url("../img/city-round-bg-cur.png")/*tpa=http://www.hbcinemas.com.cn/img/city-round-bg-cur.png*/ no-repeat;margin:4px;}
+#cities_list dl.cur dt {font-size:24px;clolor:#fff;text-align:center;margin-top:30px;margin-bottom:26px;line-height:1em;padding:0;}
+#cities_list dl.cur dd {font-size:14px;clolor:#fff;text-align:center;display:block;padding:0;margin:0;}
+
+
+/* WHY HBC */
+.new_features {border-top:1px solid #fff;background:#eaeaea url("../img/home-features-bg.png")/*tpa=http://www.hbcinemas.com.cn/img/home-features-bg.png*/;padding-bottom:80px;}
+.new_features_con {width:918px;margin:0 auto;}
+.new_features_con .bx-controls-direction {display:none;}
+.new_features_con h1, .new_features_con h2 {color:#000;font-weight:normal;font-size:36px;margin:0;padding:0 0 20px 0;}
+.new_features_con h1 {text-align:center;padding-top:40px;}
+
+.new_feature_l,.new_feature_r {min-height:240px;margin-top:20px;}
+.new_feature_l p,.new_feature_r p {width:618px;color:#3f3f3f;font-size:14px;line-height:30px;}
+.new_feature_r p, .new_feature_r h2 {margin-left:300px;}
+.figure_1 {}
+
+.figure_1 {background:url("../img/features-figure-01.png")/*tpa=http://www.hbcinemas.com.cn/img/features-figure-01.png*/ no-repeat right top;}
+.figure_2 {background:url("../img/features-figure-02.png")/*tpa=http://www.hbcinemas.com.cn/img/features-figure-02.png*/ no-repeat left top;}
+.figure_3 {background:url("../img/features-figure-03.png")/*tpa=http://www.hbcinemas.com.cn/img/features-figure-03.png*/ no-repeat right top;}
+.figure_4 {background:url("../img/features-figure-04.png")/*tpa=http://www.hbcinemas.com.cn/img/features-figure-04.png*/ no-repeat left top;}
+
+/* Public Style */
+
+.clear {clear:both;}
+.floatl {float:left;}
+.floatr {float:right;}
+
+.show {display:block;}
+.hide {display:none;}
+
+.mart_10 {margin-top:10px;}
+.mart_20 {margin-top:20px;}
+.mart_30 {margin-top:30px;}
+.mart_50 {margin-top:50px;}
+.marr_12 {margin-right:12px;}
+.padt_10 {padding-top:10px;}
+
+.h-10 {height:10px;}
+.h-20 {height:20px;}
+.h-30 {height:30px;}
+.h-60 {height:60px!important;}
+
+.bdr_t {border-top:1px solid #e9e9e9;}
+.bdr_b {border-bottom:1px solid #e9e9e9;}
+.hr_diver {height:20px;clear:both;margin-top:8px;margin-bottom:20px;}
+.diver_80 {height:80px;clear:both;}
+.diver_100 {height:100px;clear:both;}
+.diver_120 {height:120px;clear:both;}
+
+.hbc_red {color:#cf000f!important;}
+.hbc_green{ color:#209900!important;}
+
+.fix_con_80 {height:80px;overflow:hidden;}
+.w_600 {width:600px;}
+
+#bad_news {text-align:center;padding:10px 0 30px 0;display:none;}
+#bad_news a {padding:8px 100px 8px 30px;color:#fff;background:#cf000f url("../img/sprites-btn-4.png")/*tpa=http://www.hbcinemas.com.cn/img/sprites-btn-4.png*/ no-repeat right 8px;font-size:14px;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius:2px;display:block}
+#bad_news a:hover {background-position:right -142px;}
+/*静态提示文字*/
+.tishi3,.tishi4,.tishi5,.tishi6 {font:18px/58px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;_font:18px/58px microsoft yahei,arial;}
+.tishi3{ padding:20px 0 0 45px; color:#585858;}
+.tishi4{ margin:0 0 25px 75px; width:768px; height:58px; border:1px solid #cb8b8b; padding-left:60px;border-radius:5px; color:#931c00; background:#ffe7e6 url("../img/sprites-2.png")/*tpa=http://www.hbcinemas.com.cn/img/sprites-2.png*/ -910px -606px no-repeat;}
+.title4{ padding-top:10px; height:50px; font-size:18px; padding-left:45px;color:#585858;}
+.tishi5{ margin:0 0 25px 75px; width:768px; height:58px; border:1px solid #a4cb8b; padding-left:60px;border-radius:5px; color:#255f00; background:#e9fedb url("../img/sprites-2.png")/*tpa=http://www.hbcinemas.com.cn/img/sprites-2.png*/ -910px -706px no-repeat;}
+.tishi6{ margin:0 0 25px 75px; width:768px; height:58px; border:1px solid #8bafcb; padding-left:60px;border-radius:5px; color:#003a5f; background:#e5f7ff url("../img/sprites-2.png")/*tpa=http://www.hbcinemas.com.cn/img/sprites-2.png*/ -910px -806px no-repeat;font-weight:normal;}
+
+
+
+/*筛选条件*/
+
+#con_header {padding:88px 0 0;background:#e9e9e9;font-family:"Microsoft YaHei Bold", "Hiragino Sans GB W3", "Microsoft Sans Serif", "Lucida Sans Unicode";border-bottom:1px solid #e9e9e9;}
+#con_header_inner {width:928px;margin:0 auto;}
+
+
+
+#main_title h1,#main_title h1 a {color:#585858;font-size:24px;font-weight:normal;margin:38px 0 35px 0;padding:0;line-height:1em;}
+#main_title h1 a:hover {color:#cf000f;}
+#main_title h1 span {color:#585858;font-size:18px;font-weight:normal;margin:38px 0;padding:0;line-height:1em;}
+
+.terms_cart {padding-bottom:8px;}
+#terms dt, #terms dd {float:left;margin:0px;padding:0;} 
+#terms dt {width:108px;float:left;clear:left;font-weight:bold;padding:6px 0;}
+#terms dd {width:800px;float:left;} 
+#terms dd span {display:inline-block;padding:6px 7px;margin:0 2px 5px 0;color:#333;line-height:1em;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+#terms_con {+padding-top:12px;}
+#terms_con span {cursor:pointer;}
+#terms_con dd span:hover {background-color:#92929a;color:#fff;}
+#terms_con dd span:active, #terms_con dd span.cur {background-color:#828286;color:#fff;}
+
+.terms_cinema span {width:200px;}
+.terms_cinema span.city,.terms_cinema span.city:hover {width:80px;background:none!important;cursor:text!important;color:#333!important;}
+.terms_cinema span em {color:#686868;}
+.terms_cinema span:hover em {color:#fff;}
+ #terms_con dd span.cur em {color:#fff;} 
+ .selected_terms a:hover {color:#cf000f;}
+.terms_switcher a{display:block;width:80px;background:url("../img/arrow-up.png")/*tpa=http://www.hbcinemas.com.cn/img/arrow-up.png*/ no-repeat left center;padding:8px 20px;margin:0 auto;color:#828286;text-decoration:none;}
+.terms_switcher a.up {background-image:url("../img/arrow-up.png")/*tpa=http://www.hbcinemas.com.cn/img/arrow-up.png*/;}
+.terms_switcher a.up:active {background-image:url("../img/arrow-up-mousedown.png")/*tpa=http://www.hbcinemas.com.cn/img/arrow-up-mousedown.png*/;color:#585858;}
+.terms_switcher a.down {background-image:url("../img/arrow-down.png")/*tpa=http://www.hbcinemas.com.cn/img/arrow-down.png*/;}
+.terms_switcher a.down:active {background-image:url("../img/arrow-down-mousedown.png")/*tpa=http://www.hbcinemas.com.cn/img/arrow-down-mousedown.png*/;color:#585858;}
+
+
+.dash_bdr {border-top:1px dashed #aeaeae;}
+
+#terms_con {}
+
+.container {width:960px;margin:40px auto;min-height:400px;}
+
+
+
+/*MOVIE LIST*/
+.movie_list_item {width:480px;float:left;}
+.movie_list_item h4 {font-size:18px;line-height:1em;padding:0;margin:0 0 18px 0;font-weight:normal;color:#333;}
+.movie_list_item h4 a {color:#333;}
+.movie_list_item h4 a:hover {color:#cf000f;}
+.movie_list_item_left {background:url("../img/list-poster-avatar.png")/*tpa=http://www.hbcinemas.com.cn/img/list-poster-avatar.png*/ no-repeat 0 0;width:145px;height:201px;border:none;float:left;}
+.movie_list_item_right {width:310px;float:left;margin-left:20px;}
+.movie_list_item_right dl {margin-top:8px;display:block;}
+.movie_list_item_right dt, .movie_list_item_right dd {display:block;float:left;padding:0;margin:0 0 4px 0;font-size:12px;color:#585858;line-height:1.5em;}
+.movie_list_item_right dt {clear:left;width:40px;font-weight:bold;}
+.movie_list_item_right dd {width:250px;margin-left:5px;}
+
+
+.arrangement {width:290px;position:absolute;text-align:right;padding-right:20px;}
+.arrangement a {display:inline-block;padding:7px 20px;background:#cf000f;color:#fff;webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+.arrangement a:hover {background:#b1000d;}
+.arrangement a:active {background:#cf000f;}
+
+/*Movie List 中弹出的排期信息*/
+.arrangement_layer {position:absolute;+position:static;}
+.arrangement_layer_con {+position:absolute;width:500px;padding:10px;margin-left:480px;min-height:200px;background:#fff url("../img/loading-squares-circle.gif")/*tpa=http://www.hbcinemas.com.cn/img/loading-squares-circle.gif*/ no-repeat center center;-webkit-box-shadow: #888 0px 0px 10px;-moz-box-shadow: #888 0px 0px 10px;box-shadow: #888 0px 0px 10px;border:1px solid #d2d5d5;+line-heigfht}
+.arrangement_layer_con.rightside{margin-left:-510px;width:480px;}
+
+.layer_arrow_left {with:14px;height:28px;position:absolute;margin-top:80px;left:467px;+left:-14px;}
+.layer_arrow_right {with:14px;height:28px;position:absolute;margin-top:80px;left:-9px;+left:auto;+right:-14px;}
+
+.arrangement_layer_con h5 {width:400px;height:30px;margin:0;padding:0;float:left;font-size:18px;color:#585858;font-weight:normal;}
+.ico_close,.ico_close:active {display:block;float:right;width:15px;height:15px;background:url("../img/ico-close.png")/*tpa=http://www.hbcinemas.com.cn/img/ico-close.png*/ no-repeat center center;}
+.ico_close:hover {background-image:url("../img/ico-close-over.png")/*tpa=http://www.hbcinemas.com.cn/img/ico-close-over.png*/;}
+
+.limit_div {clear:both;float:none;min-height:150px;background:#fff;}
+
+.arrangement_table  {border:1px solid #ebebeb;width:100%;clear:both;}
+.arrangement_table th  {background:#ccc;padding:6px;text-align:center;}
+.arrangement_table td  {background-color:#fff;padding:6px;text-align:center;}
+.arrangement_table td.last {background-image:url("../img/highlight-arrow-default.png")/*tpa=http://www.hbcinemas.com.cn/img/highlight-arrow-default.png*/;background-repeat:no-repeat;background-position:right center!important;}
+
+td.al {text-align:left;}
+th.al {text-align:left;}
+
+.arrangement_table tr.odd td {background-color:#ededed;}
+.arrangement_table tr.highlight td {background:#5ec0e9!important;color:#fff;cursor:pointer;}
+.arrangement_table tr.highlight td.last {background:#5ec0e9 url("../img/highlight-arrow.png")/*tpa=http://www.hbcinemas.com.cn/img/highlight-arrow.png*/ no-repeat right center!important;}
+.btn_red_smal {display:inline-block;padding:3px 5px;background:#cf000f;color:#fff;webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+.btn_red_smal:hover {background:#b1000d;}
+.btn_red_smal:active {background:#cf000f;}
+
+.btn-zone  {border-top:1px solid #fff;}
+.btn_red_big {font-size:18px;display:inline-block;padding:12px 26px;background:#cf000f;color:#fff;webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;cursor:pointer;}
+.btn_red_big:hover {background:#b1000d;}
+.btn_red_big:active {background:#cf000f;}
+.btn_red_big.disable, .disable {cursor:text;background:#999;}
+.btn_gray_big {font-size:18px;display:inline-block;padding:12px 26px;background:#828286;color:#fff;webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+.btn_gray_big:hover {background:#b1000d;}
+.btn_gray_big:active {background:#cf000f;}
+
+.tab_menu_s {text-align:right;margin-top:8px;}
+.tab_menu_s a {margin-left:10px;color:#1673d2;background:none;display:inline-block;padding:3px 5px;}
+.tab_menu_s a:hover {background:#b1000d;color:#fff;}
+.tab_menu_s a:active {background:#cf000f;color:#fff;}
+.tab_menu_s a.cur {background:#cf000f;color:#fff;cursor:default;}
+
+
+
+/*Cinema List*/
+
+.cinema_list_item {width:960px;}
+.cinema_list_item_left {background:url("../img/list-cinema-avatar.png")/*tpa=http://www.hbcinemas.com.cn/img/list-cinema-avatar.png*/ no-repeat 0 0;width:200px;height:150px;border:none;float:left;}
+.cinema_list_item_right {width:738px;float:left;margin-left:20px;}
+.cinema_list_item_right h4, .cinema_list_item_right h4 a {font-size:18px;line-height:1em;padding:0;margin:0 0 18px 0;font-weight:normal;color:#333;}
+.cinema_list_item_right h4 a:hover {color:#cf000f;}
+.special {background:url("../img/icon-star.png")/*tpa=http://www.hbcinemas.com.cn/img/icon-star.png*/ no-repeat 0 3px;padding-left:20px;font-size:14px;line-height:1.5em;padding-bottom:12px;padding-top:0;}
+.special em {font-style:normal;color:#585858; border-bottom:1px dotted #dc3c47;padding-bottom:1px;  font-family:"Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;/* font-family:microsoft yahei,arial; */font-size:14px;}
+.briefing {margin-top:0px;display:block;width:510px;float:left;}
+.briefing.wp100 {width:100%;}
+.briefing dt, .briefing dd {display:block;float:left;padding:0;margin:0 0 4px 0;color:#585858;line-height:1.5em;font-size:14px;}
+.briefing dt {clear:left;width:80px;}
+.briefing dd {width:400px;margin-left:5px;}
+.briefing.wp100 dd {width:650px;margin-left:5px;text-align:justify;}
+
+.operator {display:width:120px;float:left;}
+.operator a {display:block;width:85px;padding:4px 0;text-align:center;background:#828286;color:#fff;webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;margin-bottom:10px;}
+.operator strong {+display:inline-block;+line-height:1.1em;+padding-top:1px;+margin-bottom:10px;+margin-top:0px;}
+.operator a.form_elem_link {display:inline-block;height:auto;line-height:1em;+line-height:1.1em;+margin-bottom:10px;+margin-top:6px;}
+.operator a:hover {background:#cf000f;}
+.operator a:active {background:#b1000d}
+.operator a.weibo {width:58px;border:1px solid #cecece;background:#eeeeee url("../img/list-btn-weibo.png")/*tpa=http://www.hbcinemas.com.cn/img/list-btn-weibo.png*/ no-repeat 0 0;color:#333;text-align:left;padding:4px 0 4px 24px;overflow:hidden;}
+.operator a.yigou {width:58px;border:1px solid #cecece;background: url("../imgst-btn-yigou.png")/*tpa=http://www.hbcinemas.com.cn/imgst-btn-yigou.png*/ no-repeat 0 0;color:#333;text-align:center;padding:4px 12px;overflow:hidden;}
+
+.apps_qr_code {width:140px;float:left;text-align:center;}
+.apps_qr_code p {line-height:1.4em;border-top:5px solid #fff;}
+
+
+/* Movie Detail Page */
+.movie_detail_left {float:left;width:620px;}
+.movie_info_left {background:url("../img/avatar-200x280.png")/*tpa=http://www.hbcinemas.com.cn/img/avatar-200x280.png*/ no-repeat center center;width:200px;height:280px;border:none;float:left;}
+.movie_info_left a{display:block;width:200px;height:280px;background:url("../img/arrow-play.png")/*tpa=http://www.hbcinemas.com.cn/img/arrow-play.png*/ no-repeat center center;position:absolute;border:none;}
+.movie_info_left a:hover {background-image:url("../img/mask-arrow-play-over.png")/*tpa=http://www.hbcinemas.com.cn/img/mask-arrow-play-over.png*/;}
+.movie_info_left img {border:none;}
+
+.movie_info_right {width:390px;float:left;margin-left:30px;}
+.movie_info_right dl {margin-top:8px;display:block;}
+.movie_info_right dt, .movie_info_right dd {display:block;float:left;padding:0;margin:0 0 8px 0;font-size:13px;color:#585858;line-height:1.4em;}
+.movie_info_right dt {clear:left;width:70px;font-weight:bold;}
+.movie_info_right dd {width:308px;margin-left:5px; text-align:justify;}
+.jiage{ font-size:14px;}
+
+.movie_info h4, .movie_detail_right h4 {font-size:18px;line-height:1em;padding:0;margin:26px 0 18px 0;font-weight:normal;color:#585858;}
+
+.jinggao{ width:636px; height:42px; line-height:42px; color:#000; font-size:12px; padding-left:70px; background:#FFF387 url(file:///C|/Users/Administrator/Desktop/%E6%96%B0%E7%89%88%E5%8D%8E%E8%B0%8A5.26/pub/images/jinggao.png) no-repeat 20px 7px; margin:0 auto; border:1px solid #CBBA8B; -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; }
+
+h4.orderinfo {margin-top:0;}
+.movie_info_left.orderpreview {width:165px;height:231px;}
+
+.movie_info p {font-size:12px;line-height:2em;text-align:justify;color:#585858;}
+
+.option_zone {text-align:right;position:static;margin-top:-20px;padding-bottom:8px;}
+
+.movie_info_poster_thumb {height:100px;width:620px;overflow:hidden;}
+.movie_info_poster_thumb a {display:block;width:100px;height:100px;float:left;margin-left:4px;background:url("../img/avatar-100x100.png")/*tpa=http://www.hbcinemas.com.cn/img/avatar-100x100.png*/ no-repeat 0 0;border:0;}
+.movie_info_poster_thumb a.first {margin-left:0;border:0;}
+
+
+.movie_info h4, .movie_detail_right h4 {font-size:18px;line-height:1em;padding:0;margin:26px 0 18px 0;font-weight:normal;color:#585858;}
+
+.inner_link a {position:absolute;margin-top:-80px;}
+
+#data_loading_mask {background:url("../img/white-mask.png")/*tpa=http://www.hbcinemas.com.cn/img/white-mask.png*/ repeat;position:absolute;}
+#data_loading_anim {background:url("../img/loading-squares-circle.gif")/*tpa=http://www.hbcinemas.com.cn/img/loading-squares-circle.gif*/ no-repeat center center;}
+
+
+/* Relaited Movies */
+.movie_detail_right {float:left;width:290px;margin-left:50px;}
+.movie_detail_right h4 {margin-top:0;}/*其他信息服用.movie_info h4*/
+.movie_detail_right ul, .movie_detail_right li {list-style-type:none;display:block;margin:0;padding:0;}
+.movie_detail_right ul {clear:both;margin-top:20px;border-top:1px solid #fff;}
+.movie_detail_right li {float:none;padding-bottom:5px;color:#585858;line-height:1.4em;width:200px;}
+.movie_detail_right li.related_movie_thumb {width:80px;float:right;height:112px;}
+.movie_detail_right li.related_movie_thumb a {width:80px;float:right;height:112px;display:block;background:url("../img/avatar-80x112.png")/*tpa=http://www.hbcinemas.com.cn/img/avatar-80x112.png*/ no-repeat 0 0;}
+.movie_detail_right li.related_movie_thumb img {width:80px;height:112px;border:none;}
+.movie_detail_right li.related_movie_title {width:200px;float:left;font-size:14px;padding-bottom:8px;line-height:1.5em;}
+
+.movie_detail_right li.related_movie_title a {color:#333;}
+.movie_detail_right li.related_movie_title a:hover {color:#cf000f;}
+
+
+/* POSTER GALLERY */
+.poster_info {height:200px;}
+.poster_teaser {width:80px;float:left;height:112px;display:block;background:url("../img/avatar-80x112.png")/*tpa=http://www.hbcinemas.com.cn/img/avatar-80x112.png*/ no-repeat 0 0;border:0;}
+.poster_teaser img {width:80px;height:112px;border:none;}
+
+.poster_info_1 {width:200px;float:left;margin-left:20px;}
+.poster_info_2 {width:420px;float:left;margin-left:20px;}
+
+.poster_info_1 dl {display:block;margin:0;padding:0;}
+.poster_info_1 dt, .poster_info_1 dd {display:block;float:left;padding:0;margin:0 0 8px 0;font-size:12px;color:#585858;line-height:1.5em;}
+.poster_info_1 dt {clear:left;width:70px;font-weight:bold;}
+.poster_info_1 dd {width:120px;margin-left:5px; text-align:justify;}
+
+.poster_info_2 dl {display:block;margin:0;padding:0;}
+.poster_info_2 dt, .poster_info_2 dd {display:block;float:left;padding:0;margin:0 0 8px 0;font-size:12px;color:#585858;line-height:1.5em;}
+.poster_info_2 dt {clear:left;width:70px;font-weight:bold;}
+.poster_info_2 dd {width:340px;margin-left:5px; text-align:justify;}
+
+.right_btn_zone {width:180px;float:left;text-align:right;}
+
+
+/* GALLERRY MENU */
+.tab_menu {text-align:center;}
+.tab_menu a {margin:0 15px;font-size:14px;display:inline-block;line-height:1.2em;padding:6px 26px;background:#e8e8e8;color:#000;webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
+.tab_menu a.cur, .tab_menu a.cur:hover, .tab_menu a.cur:active {background:#666;color:#ccc;}
+.tab_menu a.cur {background:#666;color:#ccc;cursor:text;}
+  
+.tab_menu a:hover {background:#cf000f;color:#fff;}
+.tab_menu a:active {background:#b1000d;color:#fff;}
+
+
+
+
+
+.gallery h4 {font-size:18px;line-height:1em;padding:0;margin:26px 0 18px 0;font-weight:normal;color:#585858;}
+.gallery ul,.gallery li {display:block;margin:0;padding:0;list-style-type:none;}
+.gallery{width:960px;overflow:hidden;}
+.gallery ul{width:990px;}
+.gallery li {width:197px;height:196px;float:left;background:url("../img/avatar-170x170.png")/*tpa=http://www.hbcinemas.com.cn/img/avatar-170x170.png*/ no-repeat 0 0;}
+.gallery li a {display:block;border:none;width:170px;height:170px;position:absolute;_background:url("../img/spacer.gif")/*tpa=http://www.hbcinemas.com.cn/img/spacer.gif*/;}
+.gallery li a:hover {background:url("../img/zoom-in-mask-170x170.png")/*tpa=http://www.hbcinemas.com.cn/img/zoom-in-mask-170x170.png*/ no-repeat 0 0;}
+
+
+.gallery ul.traler,.gallery ul.traler li {display:block;margin:0;padding:0;list-style-type:none;background:url("../img/avatar-300x225.png")/*tpa=http://www.hbcinemas.com.cn/img/avatar-300x225.png*/ no-repeat 0 0;}
+.gallery ul.traler {width:1100px;}
+.gallery ul.traler li {width:330px;height:255px;float:left;}
+.gallery ul.traler  li a {display:block;border:none;width:300px;height:225px;margin:0;padding:0;position:absolute;background:url("../img/mask-arrow-play.png")/*tpa=http://www.hbcinemas.com.cn/img/mask-arrow-play.png*/ no-repeat center center;}
+.gallery ul.traler  li a:hover {background:url("../img/mask-arrow-play-over.png")/*tpa=http://www.hbcinemas.com.cn/img/mask-arrow-play-over.png*/ no-repeat center center;}
+
+
+
+/* CINEMA DETAILS */
+
+
+.cinema_photo, .cinema_photo img {width:380px;height:280px;}
+.cinema_photo {float:left;background:url("../img/avatar-380x285.png")/*tpa=http://www.hbcinemas.com.cn/img/avatar-380x285.png*/ no-repeat 0 0;}
+.cinema_info_part1 {width:555px;float:left;margin-left:25px;}
+.qr_code {width:150px;float:right;text-align:right;}
+.qr_code {text-align:center;line-height:1.5em;}
+.qr_code p {line-height:1.4em;border-top:5px solid #fff;}
+
+.cinema_facility {width:390px;float:left;}
+.cinema_facility ul, .cinema_facility li {display:block;list-style-type:none;margin:0;padding:0;}
+.cinema_facility li {background:url("../img/sprites.png")/*tpa=http://www.hbcinemas.com.cn/img/sprites.png*/ no-repeat 0 0;min-height:30px;border-bottom:1px solid #fff;margin-bottom:4px;}
+.cinema_facility li span {display:block;margin-left:35px;line-height:1.6em;color:#585858;}
+
+li.food {background-position:0 -0;}
+li.entertainment {background-position:0 -200px;}
+li.cafe {background-position:0 -400px;}
+li.shopping {background-position:0 -600px;}
+li.parking {background-position:0 -800px;}
+li.discount {background-position:0 -1000px;}
+
+.social_btn_sina {display:inline-block;background:url("../img/social-icons.png")/*tpa=http://www.hbcinemas.com.cn/img/social-icons.png*/ no-repeat 6px 6px;color:#585858;padding:6px 6px 5px 0;webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+.social_btn_sina:hover {background-color:#cf000f;color:#fff;}
+.social_btn_sina:active {background-color:#b1000d;color:#fff;}
+.social_btn_sina span {display:inline-block;font-size:14px;margin:8px 8px 8px 46px;}
+
+
+.cinema_info h4 {font-size:18px;line-height:1em;padding:0;margin:26px 0 18px 0;font-weight:normal;color:#585858;}
+.cinema_info p {font-size:12px;line-height:2em;text-align:justify;color:#585858;}
+
+.cinema_address {border:1px solid #e9e9e9;}
+.cinema_contact_info {width:290px;float:right;overflow:hidden;min-height:500px;height:500px;
+}
+.cinema_map {width:668px;background:#eee;height:500px;overflow:hidden;}
+
+
+
+.cinema_contact_info p {margin:0 20px;padding:10px 0 8px 0;color:#585858;line-height:1em;}
+.cinema_contact_info p.hot_line {font-size:18px;line-height:2em;color:#585858;}
+.cinema_contact_info p.address {font-size:14px;line-height:1.4em;color:#585858;}
+.cinema_contact_info p.open_time_title {font-size:14px;line-height:1.4em;color:#333;text-align:center;}
+.cinema_contact_info p.dash_bdr {border-top:1px dotted #aeaeae;}
+
+.open_time, .open_time li {display:block;list-style-type:none;margin:0;padding:0;font-size:14px;line-height:1.4em;color:#333;}
+.open_time {width:252px;overflow:hidden;margin:auto;}
+.open_time li {width:125px;float:left;backgroud:#ebebeb;text-align:center;}
+.open_time li span {display:block;background:#ebebeb;font-size:14px;color:#333;padding:4px 0;}
+.open_time li strong {font-family:Arial, Helvetica, sans-serif;font-weight:normal;display:block;background:#3eaaef;font-size:18px;color:#fff;padding:12px 0;}
+.cinema_contact_info p.bus_line{line-height:1.5em;}
+
+
+
+
+
+
+/* Slogan title*/
+.box_1,.box_2,.box_3,.box_4,.box_5,.l1_2,.l1_3 a{background:url("../img/sprites-2.png")/*tpa=http://www.hbcinemas.com.cn/img/sprites-2.png*/ no-repeat;}
+.box_1{ background-position:0 -33px; height:60px;}
+.box_2{ background-position:0 -154px; height:60px;}
+.box_3{ background-position:0 -250px; height:80px;}
+.box_4{ background-position:0 -350px; height:80px;}
+.box_5{ background-position:0 -450px; height:80px;}
+
+
+/* LOGIN & REGISTER */
+
+.l1_1{ float:left; width:492px;}
+.l1_2{ float:left; width:51px; height:245px;background-position:0 -580px;}
+.l1_3{ float:left; width:410px;}
+.login_option {text-align:center;}
+.login_option p {font-size:24px;padding:0 0 30px 0;color:#585858;}
+.login_option a {display:inline-block;text-align:center;width:131px;height:131px;background:url("../img/other-login.png")/*tpa=http://www.hbcinemas.com.cn/img/other-login.png*/ no-repeat 0 0;font-size:14px;color:#333;margin-right:20px;}
+.login_option a:hover {background-position:0 -200px;}
+.login_option a span {display:inline-block;background:url("../img/login-social-icons.png")/*tpa=http://www.hbcinemas.com.cn/img/login-social-icons.png*/ center 0px;padding-top:102px;padding-bottom:10px;width:120px;}
+.login_option a span.qq{background-position:center 18px;}
+.login_option a span.weibo{background-position:center -182px;}
+.login_list{ width:492px; clear:both; overflow:hidden;}
+li.kill_overflow {overflow:inherit;height:auto!important;display:block;clear:both;min-width:450px;}
+.login_list li{ float:left; padding-left:20px; height:35px; line-height:35px; padding-bottom:15px; color:#585858;}
+/*VALIDATION EXEPTION*/
+.error {color:#c30;}
+.v_code_area label.error {position:fixed;display:block;margin-top:16px;padding-bottom:12px;padding-left:305px;}
+#vcode_error label.error {display:block;margin-left:75px;heigth:50px;}
+#vcode_error {display:block;float:none;clear:left;}
+
+#term_error  label.error {display:block;margin-left:75px;heigth:50px;}
+
+.login_list li.order{ padding-left:0;padding-right:20px;}
+
+.login_list li .left{ float:left; width:75px;}
+.login_list li .tishi{ float:left; color:#cf000f;}
+.login_list li .random_code{ float:left; margin-right:10px;}
+.login_list li .tishi2{ -float:left;}
+.login_list li .tishi2 a{ color:#4180cf;}
+
+.payment{ width:410px; clear:both; float:left; overflow:hidden; height:280px;  margin-top:30px; border-right:1px solid #E9E9E9; padding-right:30px;}
+.payment li{ height:35px; line-height:35px; padding-bottom:15px; color:#585858;}
+.payment li .left{ float:left; width:75px;}
+.payment li .tishi{ float:left; color:#cf000f;}
+.payment li .random_code{ float:left; margin-right:10px;}
+.payment li .tishi2{ float:left;}
+
+.payment p{ line-height:25px; font-size:12px; color:#585858;}
+
+
+.grn {color:#71CE78; }
+
+.zhifubaozhifu{ width:500px; height:280px; background: url("../pub/images/zhifubaoLogo.png")/*tpa=http://www.hbcinemas.com.cn/pub/images/zhifubaoLogo.png*/ no-repeat 160px 0; }
+.zhifubaozhifu1{ width:500px; height:280px; margin-top:30px; float:left; background: url("../pub/images/zhifubaoLogo1.png")/*tpa=http://www.hbcinemas.com.cn/pub/images/zhifubaoLogo1.png*/ no-repeat 160px 0; position:relative;}
+.gouxuan{ height:25px; line-height:25px; margin-top:60px; padding-left:150px; vertical-align:middle; }
+.gouxuan input{ vertical-align:middle;}
+.qidai{ width:110px; height:34px; line-height:34px; margin:5px auto; text-align:center; color:#fff; background:#CF000F; border-radius:3px; font-size:14px; cursor: pointer;}
+.zhifu_mess{ height:100px; padding:20px 80px; color:#767676; line-height:20px;}
+
+
+
+.inp{ float:left; width:200px; height:33px; line-height:33px; padding:0 9px; border:1px solid #b4b8bc; background:#ebedf0; margin-right:10px;}
+.inp.disabled {background:#ccc;color:#666; }
+.inpt { display:inline-block;width:200px; height:33px; line-height:33px; padding:0 9px; border:1px solid #b4b8bc; background:#ebedf0; margin-right:3px;}
+.inp2{ width:90px;}
+.inp3{ margin-left:70px; vertical-align:-1px; margin-right:4px;}
+.btnquerendingdan{ background:url("../img/querendingdanbtn.png")/*tpa=http://www.hbcinemas.com.cn/img/querendingdanbtn.png*/ no-repeat; color:#fff; cursor:pointer; text-align:center; width:255px; margin:0 auto; height:44px; line-height:44px; margin-top:70px; border-radius:5px; border:0; font-size:14px;}
+.btn{ width:82px; height:30px; line-height:30px; text-align:center; border:none; background:red; color:#fff; cursor: pointer; outline:none; margin-left:75px;}
+.btn.disabled{ background:#ccc; color:#666; cursor:text; }
+.btn_red_clear { background:#cf000f; color:#fff; cursor:pointer; display:inline-block;padding:8px 26px; border-radius:5px; border:0; font-size:14px;}
+
+
+/* 绑定会员卡 */
+
+.city_list{ width:960px; clear:both; overflow:hidden; margin-top:20px;padding-top:20px;}
+.city_list li{ float:left; width:960px; height:26px; line-height:26px; padding:3px 0; font-size:14px;}
+.city_list li span{ float:left; width:100px; padding-left:45px; color:#585858;}
+.city_list li label{ color:#585858;float:left; width:238px; margin-right:10px;padding:0 8px; overflow:hidden; line-height:26px; height:26px;cursor:pointer;}
+.city_list li label:hover{ background:#828286; text-decoration:none; color:#fff;}
+.city_list li label.current{ background:#cf000f; text-decoration:none; color:#fff;cursor:default;}
+.city_list li label.highlight{ background:#b1000d; text-decoration:none; color:#fff;cursor:default;}
+.next{ display:block; text-align:center; line-height:32px; background:#cf000f; color:#fff; cursor:pointer; width:92px; height:32px; margin:20px 0 0 45px;border-radius:5px; border:0; font-size:14px;}
+.notice_con {text-align:center;}
+.info_alert{ margin:25px auto 25px auto; display:inline-block;padding:12px 50px;min-width:600px;border:1px solid #cbba8b; text-align:center;font:14px"Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;_font:18px/58px microsoft yahei,arial;border-radius:5px; color:#000; background:#fff287;}
+.info_total{ background:#fff5aa; font-size:14px; margin:15px auto 15px auto;padding:6px;border:1px solid #cbba8b;border-radius:5px;text-align:center;color:#585858;}
+.ml30{ margin-left:30px;}
+.pl125{ padding-left:125px;}
+.box{ font-size:14px; line-height:30px; padding:0 0 20px 75px;}
+.box a{color:#4180cf;}
+/* ACCOUNT MANAGEMENT */
+.title2{ text-align:center; padding-top:28px; height:52px;border-bottom:1px solid #e9e9e9; margin-bottom:28px;}
+.title2 a,.title2 span{ display:inline-block; width:87px; height:30px; line-height:30px; font-size:14px; margin:0 14px; border-radius:5px;}
+.title2 a{ color:#fff; background:#828286;}
+.title2 span{ color:#333; background:#d8d8d8;}
+.l2_1{ float:left; width:100px; margin-right:24px;}
+.l2_1 p{ text-align:center; line-height:38px;}
+.l2_1 p a{color:#4180cf;}
+.l2_2{ float:left; width:600px;}
+.l2_3{ float:right; text-align:right; width:160px; font-size:14px; color:#585858;}
+.l2_3 em{ color:#000;}
+.l2_3 p{ padding:10px 0; font-size:18px;}
+.l2_3 p i{ color:#067b00;}
+.my_list{ width:300px; clear:both; overflow:hidden;}
+.my_list li{ float:left; width:300px; height:30px; line-height:30px; color:#585858;}
+.my_list li span{ float:left; width:65px;}
+.my_list li em{ display:inline-block;width:190px;line-height:1.2em;word-break:break-all;}
+
+.bangding{display:inline-block; width:125px; height:43px; line-height:43px; font-size:18px; color:#fff; border-radius:5px; background:#cf000f; text-align:center; margin-top:10px; border:0;}
+.title3{ line-height:65px; height:65px; font-size:18px; margin-top:20px;border-top:1px solid #e9e9e9;color:#585858;}
+.tbl{ border:1px solid #ebebeb; width:958px;}
+.tbl td{ padding:10px 0 10px 10px;background:#fff;}
+.tbl th{ padding:10px;text-align:left; background:#ccc;}
+.tbl .bg td{ background:#ededed;}
+.l2_2_1{ float:left; width:300px;}
+.shaixuan{ text-align:right; height:50px;}
+.l3{ float:left; width:225px; margin-right:24px;text-align:right;}
+.l3 p{ text-align:center; line-height:38px;margin-left:125px;}
+.l3 p a{color:#4180cf;}
+.r3{ float:right; width:708px;}
+.list{ width:700px; clear:both; overflow:hidden;}
+.list li{ float:left; width:700px; height:35px; line-height:35px; padding-bottom:5px; color:#585858;}
+.list li .left{ float:left; width:75px;}
+.list li .left2{ padding-left:40px;}
+.list li .tishi{ float:left; color:#cf000f;}
+.list li .bangding3{ float:left; color:#cf000f; width:155px;}
+.list li .bangding2{ float:left; width:65px; height:20px; line-height:20px; color:#fff; background:#d21624; text-align:center; margin-top:6px;}
+.box2{border-bottom:1px dashed #e9e9e9; width:708px; padding-bottom:20px; margin-bottom:20px;}
+.box3{border-bottom:1px solid #e9e9e9; width:708px; padding-bottom:20px; margin-bottom:20px;}
+.title5{ height:40px; font-size:18px;color:#585858;}
+.title5 {+padding-top:1px;+padding-bottom:1px;}
+.ml280{ margin-left:280px;}
+
+
+/*AJAX PAGE*/
+.ajaxpage_header {}
+.ajaxpage_header_inner {padding-left:20px;background:#e9e9e9;}
+.ajaxpage_header_inner h1 {margin:0;color:#585858;font-size:24px;font-weight:normal;padding:20px 0 38px 0;line-height:1em;font-family:"Microsoft YaHei Bold", "Hiragino Sans GB W3", "Microsoft Sans Serif", "Lucida Sans Unicode";border-bottom:1px solid #e9e9e9;}
+.ajaxpage_header_con {}
+.ajaxpage_header_con_inner {margin:38px 20px;}
+
+.order_info_1 {display:block;margin:0;padding:0;margin-left:20px;width:260px;float:left;}
+.order_info_1 dt, .order_info_1 dd {display:block;float:left;padding:0;margin:0 0 8px 0;font-size:12px;color:#585858;line-height:1.5em;}
+.order_info_1 dt {clear:left;width:70px;font-weight:bold;}
+.order_info_1 dd {width:180px;margin-left:5px; text-align:justify;}
+
+/*404,500 PAGE*/
+.pge_404 {background:#e9e9e9;padding:100px 0;}
+.pge_404_con {width:960px;margin:0 auto;height:618px;background:#e9e9e9 url("../img/404.jpg")/*tpa=http://www.hbcinemas.com.cn/img/404.jpg*/ no-repeat right center;}
+.pge_404_con h1 {margin:0;color:#585858;font-size:24px;font-weight:normal;padding:220px 0 18px 0;line-height:1em;font-family:"Microsoft YaHei Bold", "Hiragino Sans GB W3", "Microsoft Sans Serif", "Lucida Sans Unicode";}
+.pge_404_con h1 strong {font-size:64px;color:#888;line-height:1.5em;display:block;}
+.page_404_box{ font-size:14px; line-height:30px; padding:0;color:#585858;}
+.page_404_box a{color:#4180cf;}
+
+
+/*ORDER STEP*/
+.price {font-weight:bold;font-size:24px;color:#209900;+line-height:1.5em;+padding-bottom:3px!important;}
+.price sub {vertical-align:baseline;font-size:14px;}
+/*loading-btn*/
+.loading_btn {background:url("../img/loading-squares-circle.gif")/*tpa=http://www.hbcinemas.com.cn/img/loading-squares-circle.gif*/ no-repeat left center;width:80px;height:40px;margin: 0 10px 0 75px;padding-left:40px;white-space:nowrap;line-height: 35px;}
+
+
+/*SEAT SETTINGS*/
+.btn_change_session {display:inline-block;padding:7px 7PX 7px 28px;background:#828286 url("../img/sprites-btn-3.png")/*tpa=http://www.hbcinemas.com.cn/img/sprites-btn-3.png*/ no-repeat 7px 7px;color:#fff;font-size:12px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+.btn_change_session:hover {background:#c80514 url("../img/sprites-btn-3.png")/*tpa=http://www.hbcinemas.com.cn/img/sprites-btn-3.png*/ no-repeat 7px -43px;}
+.spacer_1 {display:inline-block;hiehgt:11px;width:8px;}
+
+
+#ticket_cart_left {float:left;width:580px;}
+#ticket_cart_right {float:right;width:326px;text-align:right;font-size:14px;line-height:1em;}
+.ticket_cart_right h4 {font-size:18px;font-weight:normal;margin-top:0;padding-top:0;}
+
+#info_timer {width:300px;margin:0 auto;text-align:center;}
+#info_timer div {height:40px;overflow:hidden;position:absolute;margin-top:-40px;margin-left:400px;}
+#info_timer div span {display:inline-block;background:#ffd800;text-align:center;font-size:14px;padding:8px 45px;color:#000;}
+#info_timer div span.warning {background:#cf000f;color:#fff}
+.seat_notice {line-height:1.8em;font-size:14px;width:940px;margin:20px auto;padding-bottom:20px;}
+
+
+/* Seat Selection */
+#seatCon {padding:40px 0;min-height:600px;min-width:960px;}
+.selected_seats {padding-bottom:10px;}
+.selected_seats span {display:inline-block;padding:0 0 0 14px;color:#333;font-size:14px;margin:0px 0  5px 6px;padding-left:0;}
+
+
+/*USER MANUAL HTML PAGE */
+.static_content p {line-height:1.8em;font-size:14px;margin:24px 0;}
+.static_content h4 {lin-height:1.8em;margin:12px 0;font-size:18px;}
+.static_content ul, .static_content ol {padding-left:20px;}
+.static_content li {line-height:1.8em;font-size:14px;margin-left:20px;}
+.static_content ul li {list-style-type:disc;}
+.static_content ol li {list-style-type:decimal;}
+.static_content table {border-left:1px solid #333;border-top:1px solid #333;}
+.static_content td {border-right:1px solid #333;border-bottom:1px solid #333;padding:8px;}
+.static_content a:hover {color:#c80514;}
+/*about us */
+.article p {width:920px;margin:0 auto;line-height:1.8em;font-size:14px;margin-top:1.2em;font-size:14px;}
+
+
+/**/
+#crop_zone {width:520px;}
+#crop_zone form {padding:0;margin:0;}
+#crop_left {float:left;width:400px;height:400px;overflow:hidden;}
+#crop_left div {}
+#crop_right {float:right;width:100px;overflow:hidden;}
+#crop_right .btn_red_clear {+display:inline-block;+padding-left:8px;+padding-right:8px;+text-align:center;}
+
+.no_data {padding:12px;text-align:center;font-size:14px;color:#585858;}
+
+.icon_flashplayer_download {background:url("../img/icon-flashplayer.png")/*tpa=http://www.hbcinemas.com.cn/img/icon-flashplayer.png*/ no-repeat 5px center;padding-left:50px;padding-top:10px;line-height:36px;width:500px;margin:160px auto;font-size:14px;color:#000;min-height:40px;}
+.icon_flashplayer_download a {color:#03F;text-decoration:underline;}
+/*临时样式*/
+.main_con {padding:60px 0;}
+.main_con p {margin:0 80px;padding:12px 30px;color:#000;border-bottom:1px solid #ccc;background:#e8e8e8;font-size:18px;font-family:"Courier New", Courier, monospace;}
+.main_con a {color:#000;}
+.main_con a:hover {color:#c30;}
+.main_con p:hover {background:#f1f1f1;}
+
+/*活动*/
+.campaign h3 {
+	text-align:center;
+	font-size:16px;
+	padding-bottom:20px;
+	font-weight:bold;
+	color:#585858;
+}
+.campaign h5 {
+	text-align:center;
+	font-size:12px;
+	color:#333;
+}
+.campaign_poster {
+	text-align:center;
+	padding:30px 0;
+}
+.campaign_description {
+	margin-top:8px;
+}
+.campaign_description p, .campaign_owner {
+font-size: 12px;
+line-height: 2em;
+text-align: justify;
+color: #585858;
+}
+.campaign_description strong, .campaign_owner strong {
+	font-size:16px;
+}
+.campaign_right_list li {
+	line-height:2em;
+}
+
+/*变更会员卡密码*/
+.card_error {
+	font-size:14px;
+	line-height:20px;
+	margin-bottom:20px;
+	margin-left:20px;
+}
+
+.card_pwd {display:block;margin:0;padding:0;margin-left:20px;width:460px;float:left;}
+.card_pwd dt, .card_pwd dd {display:block;float:left;padding:0;margin:8px 0 8px 0;font-size:12px;color:#585858;line-height:2.5em;font-size:14px;}
+.card_pwd dt {clear:left;width:70px;font-weight:bold;white-space:nowrap;}
+.card_pwd dd {width:380px;margin-left:5px; text-align:justify;}
+
+.card_pwd input.btn {margin-left:0;}
+
+
+
+.chongzhi{ width:100px; height:30px; background:#CF000F; margin-left:60px; border-radius:5px; text-align:center; line-height:30px; color:#fff;}
+
+
+
+
+
+
+
+
+.dianzishuoming{ width:270px; height:148px; border:1px solid #CBBA8B; background:#FFF287; border-radius:3px; display:none; position:absolute; left:50px; top:40px;
+}
+.dianzishuoming h3{ font-weight:bold; font-size:12px; color:#000; padding-left:10px;}
+.dianzishuoming p{ font-size:12px; color:#000; padding:0 10px 0 10px; line-height:20px;}

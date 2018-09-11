@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zym.mapper.BookedMapper">
+	<resultMap type="zym.domain.Booked" id="booked">
+		<id property="BookedId" column="BookedId" />
+		<result property="SeatNum" column="SeatNum"/>
+		<result property="BookedTime" column="BookedTime"/>
+		<association property="UserId" column="UserId" javaType="zym.domain.User">
+		</association>
+		<association property="PlanId" select="selectPlanByMovieId" column="PlanId" javaType="zym.domain.Plan">
+		</association>
+	</resultMap>
+	<resultMap type="zym.domain.Plan" id="plan">
+		<id property="PlanId" column="PlanId"/>
+		<association property="MovieId" column="MovieId" select="getMovie"  javaType="zym.domain.Movie">
+		</association>
+		<association property="RoomId" select="getRoom" column="RoomId" javaType="zym.domain.Room">
+		</association>
+	</resultMap>
+	<!-- 根据放映编号查询放映安排，影片类型，放映厅座位数 -->	
+		<select id="selectPlanByMovieId" resultMap="plan">
+			select *from plan where planid=#{PlanId}
+		</select>
+		
+		<select id="getMovie" parameterType="int" resultType="zym.domain.Movie">
+			select * from movie where movieid=#{MovieId}
+		</select>
+		
+		<select id="getRoom" parameterType="int" resultType="zym.domain.Room">
+			select * from room where roomid=#{RoomId}
+		</select>
+		
+		
+	<select id="selectSeatNum" parameterType="int" resultType="String">
+		select SeatNum from booked where planid=#{PlanId}
+	</select>
+	
+	<insert id="addBooked" >
+		Insert into booked values(default,#{UserId},#{MovieId},#{PlanId},#{SeatNum},default)
+	</insert>
+	<!-- 根据用户id查询全部订阅记录 -->
+	<select id="selectBookedByUserId" resultMap="booked" parameterType="int">
+		select * from booked where UserId=#{UserId}
+	</select>
+	<!-- 根据订单Id删除订单 -->
+	<delete id="delBooked" parameterType="int">
+		delete from booked where bookedid=#{BookedId}
+	</delete>
+	
+	<!-- 查询该场次已售座位数 -->
+	<select id="selectCountSeat">
+		select count(*) from booked where planid=#{planid}
+	</select>
+	
+</mapper>

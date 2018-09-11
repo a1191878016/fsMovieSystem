@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>浮生影片 - 浮生在线影院</title>
+		<style type="text/css">
+			.btns {
+				width: 55px;
+				height: 30px;
+			}
+			
+			.sale_btns{
+				width:55px;
+				height: 30px;
+				background-color:#03B6FD;
+			}
+			
+			.ready_btns{
+				width:55px;
+				height: 30px;
+				background-color: #FF0000;
+			}
+		</style>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="shortcut icon" href="../img/favicon.ico" />
+		<link rel="stylesheet" type="text/css" href="../iview/iview.css" />
+		<link type="text/css" rel="stylesheet" href="../css/hbc.css" />
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/jquery.form.js"></script>
+		<script type="text/javascript" src="../js/hbc.common.js"></script>
+		<script type="text/javascript" src="../js/common-utils.js"></script>
+		<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript" src="../iview/iview.min.js"></script>
+		<script type="text/javascript">
+			var Arrseat =[];
+			var planids;
+			var data;
+			var movieid;
+			var userid;
+			var rightdata;
+			var plan;
+			var uname;
+			var movie_left;
+			var plan_vue;
+			var seat_vue;
+			var seat_row;
+			var seat_columns
+			$(function() {
+				userid=sessionStorage.getItem("userid");
+				movieid = sessionStorage.getItem("movieid");
+				console.log(movieid);
+				movie_left_vue();
+				plan_vue_model();
+				seat_vue_modal();
+				LoadDate();
+				LoadRight();
+				LoadPlan();
+				uname = sessionStorage.getItem("uname");
+
+				if(uname == null) {
+					$(".isdeng").attr("style", "display: none;");
+					$(".nodeng").attr("style", "display: block;")
+				} else {
+					$(".isdeng").attr("style", "display: block;");
+					$(".isdeng").text("您好," + uname);
+					$(".nodeng").attr("style", "display: none;")
+				}
+			})
+
+			function LoadDate() {
+				$.ajax({
+					type: "get",
+					url: "/fsMovieSystem/movie/selectById.ssm?time=new Date().getDate()",
+					async: false,
+					data: {
+						MovieId: movieid
+					},
+					success: function(response) {
+						movie_left.movie = response.datas;
+						movie_left.movieid = response.datas.MovieId;
+						movie_left.moviesrc = "/fsMovieSystem" + response.datas.moviePhoto;
+						var str=response.datas.movieDate.split("-");
+						var strs=str[2].split(" ");
+						movie_left.moviedate=str[0]+"年"+str[1]+"月"+strs[0]+"日上映"
+					}
+				});
+			}
+
+			//左上影片信息简介
+			function movie_left_vue() {
+				movie_left = new Vue({
+					el: "#movie_left",
+					data: {
+						movie: [],
+						movieid: 0,
+						moviesrc: "",
+						moviedate:""
+					}
+				})
+			}
+
+			
+			
+			function plan_vue_model(){
+				plan_vue=new Vue({
+					el:"#plan_vue",
+					data:{
+						plan:[],
+						planid:0
+					},
+					methods:{
+						SeatCount:function(row,columns){
+							return row*columns;
+						},
+						PlanDate:function(date){
+							var str=date.split(" ");
+							var first=str[0].split("-");
+							var last=str[1].split(":");
+							return first[1]+"月"+first[2]+"日 "+last[0]+"时"+last[1]+"分"
+						},
+						SelectSeats:function(pid,row,columns){
+							console.log(pid+"  "+row+"  "+columns);
+							seat_vue.isshow=true;
+							SelectSeat(pid,row,columns);
+						}
+					}
+				})
+			} 
+			
+			function seat_vue_modal(){
+				seat_vue=new Vue({
+					el:"#seat_vue",
+					data:{
+						isshow:false
+					}
+				})
+			}
+			
+			function LoadRight() {
+				$.ajax({
+					type: "get",
+					url: "/fsMovieSystem/movie/selectMovie.ssm",
+					async: false,
+					data:{
+						pageNum:1,
+						pageSize:10
+					},
+					success: function(response) {
+						LoadOther(response.datas);
+					}
+				});
+			}
+			
+			function LoadOther(datas){
+				console.log(datas+"     5")
+				$(".movie_detail_right .dr").remove();
+				var str=""; 
+				for(var i=0;i<datas.length;i++){
+					var m=datas[i];
+					console.log(m);
+					var st=m.movieDate.split("-");
+					var strs=st[2].split(" ");
+					str+="<div class='dr'><ul>";
+					str+="<li class='related_movie_thumb'>"
+					str+="<a onclick='saveid("+m.movieId+")' href='MovieNews.html' >"
+					str+="<img src='/fsMovieSystem" + m.moviePhoto + "' alt=" + m.movieName + "/></a></li>";
+					str+="<li class='related_movie_title'>";		
+					str+="<a onclick='saveid("+m.movieId+")' href='MovieNews.html' >"+m.movieName+"</a></li>";
+					str+="<li>"+st[0]+"年"+st[1]+"月"+strs[0]+"日</li>";
+					str+="<li>"+m.movieType+"</li>";
+					str+="<li>主演:"+m.movieActor+"</li></ul></div>"
+				}
+				$(".movie_detail_right").append(str);
+			}
+			
+			function saveid(movieid) {
+				sessionStorage.setItem("movieid", movieid);
+			}
+
+			function LoadPlan() {
+				$.ajax({
+					type: "get",
+					url: "/fsMovieSystem/plan/selByMovieId.ssm",
+					async: false,
+					data:{
+						MovieId:movieid
+					},
+					success: function(response) {
+						plan_vue.plan=response;
+						plan_vue.planid=response.planId;
+					}
+				});
+			}
+		
+			
+			function SelectSeat(planid,row,columns) {
+				seat_row=row;
+				seat_columns=columns;
+				planids = planid;
+				$("#Seat .s").remove();
+				var seats;
+				var seat = $("#Seat");
+				var temp = "";
+				$.ajax({
+					type: "get",
+					url: "/fsMovieSystem/booked/selSeatNum.ssm",
+					async: false,
+					data: {
+						PlanId: planid
+					},
+					success: function(response) {
+						seats = response;
+						console.log(seats[1]);
+					}
+				});
+				for(var i=0;i<row;i++){
+					temp+="<div class='s'>";
+					for(var j=0;j<columns;j++){
+						var pdd=0;
+						for(var z=0;z<seats.length;z++){
+							var seatNum=seats[z].split("-");
+							if(i==seatNum[0]&&j==seatNum[1]){
+								pdd=1;
+								break;
+							}
+						}
+						if(pdd!=1){
+							temp += "<input type='button' class='btns' onclick='buy(" + i +","+ j + ")' id='s" + i +"-" + j + "' value='" + (i+1) +"排" + (j+1) +"座'/>"
+						}else{
+							temp+="<input type='button' class='sale_btns' disabled='true'  id='s" + (i * 10 + j + 1) + "' value='" + (i+1) +"排" + (j+1) +"座'/>";
+						}
+					}
+					temp += "<br/></div>"
+				}
+				seat.append($(temp));
+			
+				}
+//				
+			
+
+			function buy(x,y) {
+			
+				var p = 0;
+				var str=x+"-"+y;
+				console.log(str);
+				for(var i = 0; i < Arrseat.length; i++) {
+					if(str == Arrseat[i]) {
+						p = 1;
+						break;
+					}
+				}
+				if(p == 0) {
+					$("#s" + x+"-"+y+ "").css("background-color", "red");
+					Arrseat.push(str);
+				} else { 
+					$("#s" +x+"-"+y + "").css("background-color", "white");
+					Arrseat.splice(jQuery.inArray(str, Arrseat), 1);
+				}
+			}
+
+			function buying() {
+				var res=0;
+				if(uname == null) {
+					alert("请先登录");
+					location.href = "login.html";
+				}else{
+					var times=new Date().toLocaleString();
+					var c = 0;
+					if(Arrseat.length == 0) {
+						alert("请选择您要购买的座位");
+					} else {
+						for(var i = 0; i < Arrseat.length; i++) {
+							$.ajax({
+								type: "get",
+								url: "/fsMovieSystem/booked/addBooked.ssm",
+								async: false,
+								data: {
+									UserId:userid,
+									MovieId:movieid,
+									PlanId: planids,
+									SeatNum: Arrseat[i]								
+								},
+								success: function(response) {
+									console.log(response.result)
+									if(response.result == "success") {
+										res++;	
+									} 
+								}
+							});
+						}
+					if(res==Arrseat.length){
+						console.log(Arrseat.length)
+						alert("购买成功")
+					}else{
+						console.log(Arrseat.length)
+						alert("购买失败")
+					}
+						Arrseat = [];
+						SelectSeat(planids, seat_row, seat_columns);
+					}
+				}
+			}
+		</script>
+
+	</head>
+
+	<body>
+
+		<!--顶端部分 开始-->
+		<div id="header">
+			<!--顶端菜单 开始-->
+			<div id="top_bar">
+
+			</div>
+			<div id="menu_bar">
+				<div id="menu_con">
+					<!--<a href="index.htm" tppabs="http://www.hbcinemas.com.cn/" id="hbc_logo"><img src="img/hbc-logo.png" tppabs="http://www.hbcinemas.com.cn/img/hbc-logo.png" alt="华谊兄弟影院官网" width="126" height="56" />
+			</a>-->
+					<ul id="menu">
+						<li>
+							<a href="index.html" class="cur">首页</a>
+						</li>
+
+						<li>
+							<a href="MyBooked.html">我的订单</a>
+						</li>
+						<li>
+							<a href="MyReview.html">我的影评</a>
+						</li>
+						<li>
+							<a href="MyAllNews.html">个人信息</a>
+						</li>
+						<li>
+							<a href="login.html">会员</a>
+						</li>
+						<!-- <li><a href="/zixun.html">信息咨讯</a></li> -->
+					</ul>
+					<div id="menu_right">
+						<a href="register.html">注册</a><span class="diver">&nbsp;</span>
+						<a href="login.html" class="nodeng">登录</a>
+						<span class="isdeng"></span>
+					</div>
+
+				</div>
+			</div>
+			<!--顶端菜单 结束-->
+		</div>
+		<!--主体头部-->
+		<div id="con_header">
+
+			<div id="con_header_inner">
+				<!--主标题-->
+				<div id="main_title">
+					<h1><span><a href="index.html" >影片</a></span><span id="m1"></span></h1>
+				</div>
+				<!--主标题 结束-->
+			</div>
+
+		</div>
+		<!--主体头部 结束-->
+
+<!-- 核心内容 -->
+<div class="container">
+	<!-- 布局左侧 -->
+	<div class="movie_detail_left">
+		<div id="movie_left">
+			<!-- 影片信息 开始 -->
+			<div class="movie_info">
+				<div class="movie_info_left">
+					<img v-bind:src="moviesrc" width="214px" height="280px" alt="movie.movieName" />
+				</div>
+				<div class="movie_info_right">
+					<dl> 
+						<dt>影片名称：</dt><dd>{{movie.movieName}}</dd>
+						<dt></dt>
+						<dt>影片类型：</dt><dd>{{movie.movieType}}</dd>
+						<dt></dt>
+						<dt>拍摄国家：</dt><dd>{{movie.country}}</dd>
+						<dt></dt>
+						<dt>电影片长：</dt><dd>{{movie.movieTime}}</dd>
+						<dt></dt>
+						<dt>上映时间：</dt><dd>{{moviedate}}</dd>
+						<dt></dt>
+						<dt>主要演员：</dt><dd>{{movie.movieActor}}</dd>
+						<dt></dt>
+						<dt>导演：</dt><dd>{{movie.movieDirector}}</dd>
+					</dl>
+					<div class="clear"></div>
+					
+				</div>
+				<div class="clear"></div>
+			</div>
+			<!-- 影片信息 结束 -->
+			<!-- 影片简介 开始 -->
+			<div class="movie_info bdr_t mart_20">
+				<h4>影片简介</h4>
+				<p>
+					<p>{{movie.movieInformation}}</p>
+				</p>
+			</div>
+			<!-- 影片简介 结束 -->
+		</div>
+		<div class="inner_link">
+			<a name="hbc-session"></a>
+		</div>
+		
+		<!-- 影片排期 开始 -->
+		<div class="movie_info bdr_t mart_20" id="plan_vue">
+			<h4>影片排期<span style="color:red;font-size:14px;">(注:价格仅供参考,以最终支付价格为准)</span></h4>
+			<div>
+				<div id="data_loading_mask">
+					<div id="data_loading_anim"></div>
+				</div>
+				<div id="scheduleDiv">
+					<table cellpadding="0" cellspacing="0" border="0" class="arrangement_table" id="arragement_data">
+						<thead>
+							<tr>
+								<th>放映时间</th>
+								<th>放映厅</th>
+								<th>影片类型</th>
+								<th>价格</th>
+								<th class="al">总座位</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					<tbody id="bd">
+						<tr v-for="(p,index) in plan">
+							<td>{{PlanDate(p.planTime)}}</td>
+							<td>{{p.roomId.roomId}}</td>
+							<td>{{p.movieId.movieType}}</td>
+							<td>{{p.moviePrice}}</td>
+							<td>{{SeatCount(p.roomId.row,p.roomId.columns)}}</td>
+							<td><input type="button" class="btn_red_smal" value="查看座位" v-on:click="SelectSeats(p.planId,p.roomId.row,p.roomId.columns)" /></td>
+						</tr>
+					</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="tab_menu_s"></div>
+		</div>
+		<div id="seat_vue">
+			<modal title="座位选择" v-model="isshow" width="800px">
+				<div class="movie_info bdr_t mart_20" id="Seat">
+	
+				</div>
+				<input id="regbtn" type="button" value="确认购买" class="btn" onclick="buying()">
+			</modal>
+		</div>
+	</div>
+	<!-- 布局左侧 结束 -->
+	<div id="movie_right">
+		<div class="movie_detail_right" >
+			<h4> 正在上映的影片</h4>
+			<!--其他电影信息-->
+
+			<!--其他电影信息 结束-->
+		</div>
+	</div>
+	<!-- 布局右侧 开始 -->
+	<div class="clear"></div>
+	<!-- 布局右侧 结束 -->
+</div>
+<!-- 核心内容 结束 -->
+
+		<div id="footer">
+			<div id="footer_con">
+				<p align="center">
+					<a href="aboutus.html" tppabs="http://www.hbcinemas.com.cn/aboutus.html">关于我们</a>&nbsp;|&nbsp;
+					<a href="contactus.html" tppabs="http://www.hbcinemas.com.cn/contactus.html">联系我们</a>&nbsp;|&nbsp;
+					<a>京ICP备74874213号</a>&nbsp;|&nbsp;
+					<a>京ICP证321564478号</a>
+				</p>
+				<p align="center">
+					<a href="index.html" class="footer_social_sina" target="_blank">浮生影院官方微博</a>
+				</p>
+				<p align="center">© 2017 沈阳环球影院管理有限公司 </p>
+				<p align="center">Copyright © 2015 HBC Incorporated. All rights reserved.</p>
+				<p align="center">地址：沈阳市和平区远东大厦2楼 总机：024-27732469 </p>
+				<div style="margin:12px auto;width:30px;padding-top:8px;">
+
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

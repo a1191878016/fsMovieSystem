@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="../iview/iview.css" type="text/css" />
+    <link href="../css/bootstrap.min.css" title="" rel="stylesheet" />
+	<link title="orange" href="../css/login.css" rel="stylesheet" type="text/css" />
+    <title></title>  
+    <link rel="stylesheet" href="../css/pintuer.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    
+     <style type="text/css">
+        	.btns{
+        		width: 55px;
+        		height: 30px;
+        		background-color: #03B6FD;
+        	}
+        </style>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/pintuer.js"></script>
+    <script src="../js/jquery-3.2.1.js" type="text/javascript"></script>
+    <script src="../js/vue.js" type="text/javascript"></script>
+    <script src="../iview/iview.min.js"></script>
+    <script type="text/javascript">
+    	var Arrseat=new Array();
+    	var userid;
+    	var bookedmoneys;
+    	var planids
+    	var movies_vue;
+    	var p=1;
+    	var plans_vue;
+    	var movie_id;
+    	var seat_row;
+		var seat_columns
+		var seats_vue;
+    	$(function(){
+    		movies_vue_model();
+    		plans_vue_model();
+    		seats_vue_model();
+    		movies_vue.getMovie(p,10)
+    		userid=sessionStorage.getItem("userid");
+    		
+    	})
+    	
+    	/**
+    	 * 主体vue
+    	 */
+    	function movies_vue_model(){
+    		movies_vue=new Vue({
+    			el:"#movies_vue",
+    			data:{
+    				movie:[],
+    				dataCount:0,
+    				moviename:""
+    			},
+    			methods:{
+    				getMovie:function(pn,ps){
+    					$.ajax({
+    						type:"get",
+    						url:"/fsMovieSystem/movie/selectMovie.ssm",
+    						async:false,
+    						data:{
+    							pageNum:pn,
+    							pageSize:ps
+    						}, 
+    						success:function(response){
+    							movies_vue.movie=response.datas;
+    							movies_vue.dataCount=response.total;
+    						
+    						}
+    					});
+    				},
+    				change:function(page){
+    					movies_vue.getMovie(page,10);    					
+						p=page;
+					
+    				},
+    				selectPlan:function(movieid){
+    					movie_id=movieid;
+    					$.ajax({
+    						type:"post",
+    						url:"/fsMovieSystem/plan/selUserPlanNews.ssm",
+    						async:true,
+    						data:{
+    							MovieId:movieid
+    						},
+    						success:function(response){
+    							plans_vue.plan=response.plan;
+    							plans_vue.otherseat=response.seat;
+    							plans_vue.isshow=true;
+    							console.log(plans_vue.plan)
+    						}
+    					});
+    				},
+    				movielike:function(){
+    					if(movies_vue.moviename==""){
+    						movies_vue.getMovie(1,10)
+    					}else{
+    						$.ajax({
+    							type:"post",
+    							url:"/fsMovieSystem/movie/selectMovieLike.ssm",
+    							async:false,
+    							data:{
+    								movieName:movies_vue.moviename
+    							},
+    							success:function(response){
+    								movies_vue.movie=response;
+    							}
+    						});
+    					}
+    				}
+    			}
+    		})
+    	}
+    	
+    	function plans_vue_model(){
+    		plans_vue=new Vue({
+    			el:"#plans_vue",
+    			data:{
+    				isshow:false,
+    				plan:[],
+    				otherseat:[]
+    			},
+    			methods:{
+    				selectSeats:function(planid,row,columns){
+    					plans_vue.isshow=false;
+    					seats_vue.seat_show=true;
+    					seat_row=row;
+						seat_columns=columns;
+						planids = planid;
+						$("#Se .s").remove();
+						var seats;
+						var seat = $("#Se");
+						var temp = "";
+						$.ajax({
+							type: "get",
+							url: "/fsMovieSystem/booked/selSeatNum.ssm",
+							async: false,
+							data: {
+								PlanId: planid
+							},
+							success: function(response) {
+								seats = response;
+							}
+						});
+						for(var i=0;i<row;i++){
+							temp+="<div class='s'>";
+							for(var j=0;j<columns;j++){
+								var pdd=0;
+								for(var z=0;z<seats.length;z++){
+									var seatNum=seats[z].split("-");
+									if(i==seatNum[0]&&j==seatNum[1]){
+										pdd=1;
+										break;
+									}
+								}
+								if(pdd!=1){
+									temp += "<input type='button' class='btns' onclick='buy(" + i +","+ j + ")' id='s" + i +"-" + j + "' value='" + (i+1) +"排" + (j+1) +"座'/>"
+								}else{
+									temp+="<input type='button' class='btns' style='background-color:#828286' disabled='true'  id='s" + (i * 10 + j + 1) + "' value='" + (i+1) +"排" + (j+1) +"座'/>";
+								}
+							}
+							temp += "<br/></div>"
+						}
+						seat.append($(temp));
+    				},
+    				seatCount:function(index){
+    					return plans_vue.otherseat[index];
+    				}
+    				
+    			}
+    		})
+    	}
+    	
+    	function seats_vue_model(){
+    		seats_vue=new Vue({
+    			el:"#seats_vue",
+    			data:{
+    				seat_show:false
+    			},
+    			methods:{
+    				buying:function(){
+    					var res=0;
+						var times=new Date().toLocaleString();
+						var c = 0;
+						if(Arrseat.length == 0) {
+							alert("请选择您要购买的座位");
+						} else {
+							for(var i = 0; i < Arrseat.length; i++) {
+								$.ajax({
+									type: "get",
+									url: "/fsMovieSystem/booked/addBooked.ssm",
+									async: false,
+									data: {
+										UserId:userid,
+										MovieId:movie_id,
+										PlanId: planids,
+										SeatNum: Arrseat[i]								
+									},
+									success: function(response) {
+										console.log(response.result)
+										if(response.result == "success") {
+											res++;	
+										} 
+									}
+								});
+							}
+							if(res==Arrseat.length){
+								console.log(Arrseat.length)
+								alert("购买成功")
+							}else{
+								console.log(Arrseat.length)
+								alert("购买失败")
+							}
+							Arrseat = [];
+							plans_vue.selectSeats(planids, seat_row, seat_columns);
+						}
+    				}
+    			}
+    		})
+    	}
+    	
+    	function buy(x,y) {
+			
+				var p = 0;
+				var str=x+"-"+y;
+				console.log(str);
+				for(var i = 0; i < Arrseat.length; i++) {
+					if(str == Arrseat[i]) {
+						p = 1;
+						break;
+					}
+				}
+				if(p == 0) {
+					$("#s" + x+"-"+y+ "").css("background-color", "red");
+					Arrseat.push(str);
+				} else { 
+					$("#s" +x+"-"+y + "").css("background-color", "white");
+					Arrseat.splice(jQuery.inArray(str, Arrseat), 1);
+				}
+			}
+			
+			
+			
+			
+    	
+    	
+    	
+    	
+    </script>
+</head>
+<body>
+	<!--
+    	作者：offline
+    	时间：2018-04-18
+    	描述：电影信息vue
+    -->
+<div id="movies_vue">
+<div class="panel admin-panel">
+	 <span>影片查询:&nbsp;</span><input v-model="moviename" v-on:keyup="movielike()"  />
+    <div class="panel-head">
+    	<strong class="icon-reorder" style="display: inline-block;"> 放映安排</strong>
+    </div>
+  
+  
+    	<table class="table table-hover text-center">
+      		<thead>
+      			<tr>
+      				<th>序号</th>
+        			<th>电影名称</th>
+        			<th>国家</th>
+        			<th>主要演员</th>
+        			<th>导演</th>
+        			<th>类型</th>
+        			<th width="25%">放映时长</th>
+        			<th width="120" >操作</th>    
+      			</tr>
+      		</thead>     
+      		<tbody id="bd">
+       			<tr v-for="(m,index) in movie">
+       				<th>{{index+1}}</th>
+       				<th>{{m.movieName}}</th>
+       				<th>{{m.country}}</th>
+       				<th>{{m.movieActor}}</th>
+       				<th>{{m.movieDirector}}</th>
+       				<th>{{m.movieType}}</th>
+       				<th>{{m.movieTime}}</th>
+       				<th><input type="button" value="查看排片" class="btns" v-on:click="selectPlan(m.movieId)" /></th>
+       			</tr>
+      		</tbody>       
+    	</table>
+</div>
+		<Page :total='dataCount'  show-elevator show-total :page-size='10' class='page' @on-change='change'></Page>
+</div>
+<!--
+	作者：offline
+	时间：2018-04-18
+	描述：场次vue
+-->
+<div id="plans_vue" class="panel admin-panel">
+	<modal title="场次选择" v-model="isshow" width="800px">
+		<table class="table table-hover text-center">
+      		<thead>
+      			<tr>
+      				<th>序号</th>
+        			<th>放映厅名称</th>
+        			<th>影票价格</th>
+        			<th>放映时间</th>
+        			<th>剩余座位</th>
+        			<th width="120" >操作</th>    
+      			</tr>
+      		</thead>     
+      		<tbody id="bd">
+       			<tr v-for="(p,index) in plan">
+       				<th>{{index+1}}</th>
+       				<th>{{p.roomId.roomName}}</th>
+       				<th>{{p.moviePrice}}</th>
+       				<th>{{p.planTime}}</th>
+       				<th>{{seatCount(index)}}</th>
+       				<th><input type="button" value="选座" class="btn_red_smal" v-on:click="selectSeats(p.planId,p.roomId.row,p.roomId.columns)" /></th>
+       			</tr>
+      		</tbody>
+    </table>
+	
+	</modal>
+</div>
+	<div id="seats_vue">
+		<modal title="座位选择" v-model="seat_show" width="800px">
+			<div id="Se" >
+			
+			</div>
+			<input id="regbtn" type="button" value="确认购买" class="btn" v-on:click="buying()" >
+		</modal>
+	</div>
+
+
+
+  <div class="table table-hover text-center" id="Seat">
+				
+	</div>
+
+
+
+
+
+</body>
+</html>

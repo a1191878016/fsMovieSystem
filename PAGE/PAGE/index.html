@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>教师表</title>
+		<link rel="stylesheet" type="text/css" href="iview/iview.css" />
+		<style type="text/css">
+			#table td {
+				width: 150px;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+			}
+			
+			.c1 {
+				background: #FF6600;
+				color: #fff;
+			}
+			
+			.c2 {
+				background: #2DB7F5;
+				color: #fff;
+			}
+			
+			.b1 {
+				width: 40px;
+				height: 30px;
+				line-height: 30px;
+				color: #fff;
+				background: #2D8CF0;
+				border: none;
+			}
+			
+			.b2 {
+				width: 40px;
+				height: 30px;
+				line-height: 30px;
+				color: #fff;
+				background: #F53F14;
+				border: none;
+			}
+			
+			#addbutton {
+				width: 40px;
+				height: 30px;
+				line-height: 30px;
+				color: #fff;
+				background: #2D8CF0;
+				border: none;
+			}
+		</style>
+		<script src="js/vue.js"></script>
+		<script src="iview/iview.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript">
+			var v;
+			var u;
+			var a;
+			var p = 1;
+			window.onload = function() {
+				v();
+				u();
+				a();
+			}
+
+			function a() {
+				a = new Vue({
+					el: "#addTeacher",
+					data: {
+						teachername: "",
+						teachersex: "",
+						numberid: "",
+						phone: "",
+						teacherdate: "",
+						isshow: false
+					},
+					methods: {
+						add() {
+							$.ajax({
+								type: "post",
+								url: "/SchoolSystem/Teacherjia.ssm",
+								async: false,
+								data: {
+									teachername: a.teachername,
+									teachersex: a.teachersex,
+									numberid: a.numberid,
+									teacherpwd: a.numberid.slice(12),
+									teacherdate: a.teacherdate,
+									powerid: 0,
+									phone: a.phone
+								},
+								success: function(r) {
+									console.log(r);
+									if(r.result) {
+										a.addsuccess();
+										LoadStudents(p, 10);
+									}
+								}
+							});
+						},
+						addsuccess() {
+							this.$Notice.success({
+								desc: '修改成功!'
+							});
+						}
+					}
+				});
+			}
+
+			function v() {
+				v = new Vue({
+					el: "#teacher",
+					methods: {
+						change: function(page) {
+							LoadStudents(page, 10);
+							p = page;
+						},
+						del: function(id) {
+							console.log(v.teachers[id].teacherid)
+							var tid = v.teachers[id].teacherid;
+							v.confirm(tid);
+						},
+						edit: function(id) {
+							//							u.isteachers = v.teachers[id]
+							u.isteachers.teacherid = v.teachers[id].teacherid;
+							u.isteachers.teachername = v.teachers[id].teachername;
+							u.isteachers.teachersex = v.teachers[id].teachersex;
+							u.isteachers.numberid = v.teachers[id].numberid;
+							u.isteachers.phone = v.teachers[id].phone;
+							u.isteachers.teacherdate = v.teachers[id].teacherdate;
+							u.isshow = true;
+						},
+						addTiao: function() {
+							a.isshow = true;
+						},
+						confirm(tid) {
+							this.$Modal.confirm({
+								title: '删除',
+								content: '您确定要删除吗?',
+								onOk: () => {
+									$.ajax({
+										type: "post",
+										url: "/SchoolSystem/shanTeacher.ssm",
+										async: false,
+										data: {
+											teacherid: tid
+										},
+										success: function(r) {
+											console.log(r)
+											if(r.result) {
+												v.delsuccess();
+												LoadStudents(p, 10);
+											}
+										}
+									});
+								}
+							});
+						},
+						delsuccess() {
+							this.$Notice.success({
+								desc: '删除成功!'
+							});
+						}
+
+					},
+					data: {
+						teachers: [],
+						dataCount: 0
+					}
+				});
+				LoadStudents(p, 10);
+			}
+
+			function u() {
+				u = new Vue({
+					el: "#update",
+					data: {
+						isshow: false,
+						isteachers: [{
+							teacherid: 0,
+							teachername: '',
+							teachersex: '',
+							numberid: 0,
+							phone: 0,
+							teacherdate: ''
+						}],
+						value1: ''
+					},
+					methods: {
+						upd(tid) {
+							$.ajax({
+								type: "post",
+								url: "/SchoolSystem/updteacher.ssm",
+								async: false,
+								data: {
+									teachername: u.isteachers.teachername,
+									teachersex: u.isteachers.teachersex,
+									numberid: u.isteachers.numberid,
+									phone: u.isteachers.phone,
+									teacherdate: u.isteachers.teacherdate,
+									teacherid: tid
+								},
+								success: function(r) {
+									console.log(r);
+									if(r.result) {
+										u.updsuccess();
+										LoadStudents(p, 10);
+									}
+								}
+							});
+						},
+						updsuccess() {
+							this.$Notice.success({
+								desc: '修改成功!'
+							});
+						}
+					}
+				});
+			}
+
+			function LoadStudents(pn, ps) {
+				$.ajax({
+					type: "post",
+					url: "/SchoolSystem/xianshiTeacher.ssm",
+					async: false,
+					data: {
+						pagenum: pn,
+						pagesize: ps
+					},
+					success: function(r) {
+						console.log(r)
+						v.teachers = r.datas;
+						v.dataCount = r.total;
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="teacher">
+			<div style="height: 574px; width: 100%; background: #6D7380;">
+				<table id="table" style="width: 100%;">
+					<thead style="background: #F8F8F9;">
+						<tr>
+							<td>序号</td>
+							<td>教师编号</td>
+							<td>教师姓名</td>
+							<td>教师性别</td>
+							<td>教师身份</td>
+							<td>教师电话</td>
+							<td>入职日期</td>
+							<td>操作</td>
+						</tr>
+					</thead>
+					<tbody id="tb">
+						<tr v-for="(s,index) in teachers" v-bind:class="index%2==1?'c1':'c2'">
+							<td>{{index+1}}</td>
+							<td>{{s.teacherid}}</td>
+							<td>{{s.teachername}}</td>
+							<td>{{s.teachersex}}</td>
+							<td>{{s.numberid}}</td>
+							<td>{{s.phone}}</td>
+							<td>{{s.teacherdate}}</td>
+							<td><input type="button" value="修改" class="b1" v-on:click="edit(index)" /><input type="button" value="删除" class="b2" v-on:click="del(index)" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<Page :total="dataCount" show-elevator show-total :page-size='10' class="page" @on-change="change"></Page>
+			<input type="button" value="新增" v-on:click="addTiao" id="addbutton" />
+		</div>
+		<div id="update">
+			<modal title="修改教师信息" v-model="isshow" @on-ok="upd(isteachers.teacherid)">
+				<p>
+					<span>教师编号:{{isteachers.teacherid}}</span>
+				</p>
+				<p>
+					教师姓名:<input type="text" v-model="isteachers.teachername" />
+				</p>
+				<p>
+					教师性别:<input type="text" v-model="isteachers.teachersex" />
+				</p>
+				<p>
+					教师身份:<input type="text" v-model="isteachers.numberid" />
+				</p>
+				<p>
+					教师电话:<input type="text" v-model="isteachers.phone" />
+				</p>
+				<p>
+					入职日期:<input type="text" v-model="isteachers.teacherdate" />
+				</p>
+			</modal>
+		</div>
+		<div id="addTeacher">
+			<modal title="新增教师信息" v-model="isshow" @on-ok="add">
+				<p>
+					教师姓名:<input type="text" v-model="teachername" />
+				</p>
+				<p>
+					教师性别:<input type="text" v-model="teachersex" />
+					<!--<RadioGroup v-model="teachersex">
+						<Radio label="男">
+						</Radio>
+						<Radio label="女">
+						</Radio>
+					</RadioGroup>-->
+				</p>
+				<p>
+					教师身份:<input type="text" v-model="numberid" />
+				</p>
+				<p>
+					教师电话:<input type="text" v-model="phone" />
+				</p>
+				<p>
+					入职日期:<input type="datetime-local" v-model="teacherdate" />
+				</p>
+			</modal>
+		</div>
+	</body>
+
+</html>

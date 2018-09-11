@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="../iview/iview.css" type="text/css" />
+    <link href="../css/bootstrap.min.css" title="" rel="stylesheet" />
+	<link title="orange" href="../css/login.css" rel="stylesheet" type="text/css" />
+    <title></title>  
+    <link rel="stylesheet" href="../css/pintuer.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    
+     <style type="text/css">
+        	.btns{
+        		width: 55px;
+        		height: 30px;
+        		background-color: #03B6FD;
+        	}
+        	dl{margin:0;}
+     dt,dd{ display:inline; margin:0; padding:0;} 
+     dt { font-weight: bold; } 
+     dt::after { content: ": "; } 
+     dd::after{ content:"\0A"; white-space:pre; } 
+        </style>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/pintuer.js"></script>  
+    <script src="../js/jquery-3.2.1.js" type="text/javascript"></script>
+    <script src="../js/vue.js" type="text/javascript"></script>
+    <script src="../iview/iview.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    	var Arrseat=new Array();
+    	var userid;
+    	var bookedmoneys;
+    	var planids;
+    	var movie_vue;
+    	var update_vue;
+    	var plan_vue;
+    	var p=1;
+    	$(function(){
+    		userid=sessionStorage.getItem("userid");
+    		movie_vue_model();
+    		update_vue_model();
+    		plan_vue_model();
+    		movie_vue.LoadData(p,10);
+    		
+    	})
+    	/**
+    	 * 电影信息vue
+    	 */
+    	function movie_vue_model(){
+    		movie_vue=new Vue({
+    			el:"#movie_user_vue",
+    			data:{
+    				movie:[],
+    				dataCount:0,
+    				moviename:""
+    			},
+    			methods:{
+    				LoadData:function(pn,ps){
+    					$.ajax({
+    						type:"post",
+    						url:"/fsMovieSystem/movie/selectMovie.ssm",
+    						data:{
+    							pageNum:pn,
+								pageSize:ps
+    						},
+    						async:true,
+    						success:function(response){
+    							movie_vue.movie=response.datas;
+    							movie_vue.dataCount=response.total;
+    							console.log(movie_vue.movie);
+    						}
+    					});
+    				},
+    				change:function(page){
+    					movie_vue.LoadData(page,10);
+    					p=page;
+    				},
+    				mDate:function(date){
+    					var str=date.split(" ");
+    					return str[0];
+    				},
+    				update:function(index){
+//  					update_vue.m=movie_vue.movie[index];
+    					update_vue.m.movieName=movie_vue.movie[index].movieName;
+    					update_vue.m.country=movie_vue.movie[index].country;
+    					update_vue.m.movieActor=movie_vue.movie[index].movieActor;
+    					update_vue.m.movieDate=movie_vue.movie[index].movieDate;
+    					update_vue.m.movieDirector=movie_vue.movie[index].movieDirector;
+    					update_vue.m.movieInformation=movie_vue.movie[index].movieInformation;
+    					update_vue.m.movieTime=movie_vue.movie[index].movieTime;
+    					update_vue.m.movieType=movie_vue.movie[index].movieType;
+    					update_vue.m.movieId=movie_vue.movie[index].movieId;
+    					update_vue.isshow=true;
+    				},
+    				del:function(index){
+    					console.log("777")
+    					$.ajax({
+    						type:"post",
+    						url:"/fsMovieSystem/movie/delMovieById.ssm",
+    						async:false,
+    						data:{
+    							MovieId:movie_vue.movie[index].movieId
+    						},
+    						success:function(response){
+    							if(response.result=="success"){
+    								alert("删除成功")
+    								
+    								movie_vue.LoadData(p,10);
+    							}else{
+    								alert("删除失败")
+    							}
+    						}
+    					});
+    				},
+    				movielike:function(){
+    					if(movie_vue.moviename==""){
+    						movie_vue.LoadData(1,10)
+    					}else{
+    						$.ajax({
+    							type:"post",
+    							url:"/fsMovieSystem/movie/selectMovieLike.ssm",
+    							async:false,
+    							data:{
+    								movieName:movie_vue.moviename
+    							},
+    							success:function(response){
+    								movie_vue.movie=response;
+    							}
+    						});
+    					}
+    				},
+    				selPlan:function(index){
+    					$.ajax({
+    						type:"post",
+    						url:"/fsMovieSystem/plan/selByMovieId.ssm",
+    						async:false,
+    						data:{
+    							MovieId:movie_vue.movie[index].movieId
+    						},
+    						success:function(response){
+    							console.log(response)
+    							plan_vue.plan=response;
+    							plan_vue.movieid=movie_vue.movie[index].movieId;
+    						}
+    					});
+    					$.ajax({
+    						type:"post",
+    						url:"/fsMovieSystem/room/selectRoom.ssm",
+    						async:true,
+    						success:function(response){
+    							plan_vue.room=response;
+    						}
+    					});
+    					plan_vue.isshow=true;
+    				}
+    			}
+    		})
+    	}
+		
+		function update_vue_model(){
+			update_vue=new Vue({
+				el:"#update_vue",
+				data:{
+					isshow:false,
+					m:[]
+				},
+				methods:{
+					updmovie:function(){
+						console.log("888");
+						$.ajax({
+							type:"post",
+							url:"/fsMovieSystem/movie/updMovieNews.ssm",
+							async:true,
+							data:{
+								movieid:update_vue.m.movieId,
+								movieName:update_vue.m.movieName,
+								country:update_vue.m.country,
+								movieActor:update_vue.m.movieActor,
+								movieDirector:update_vue.m.movieDirector,
+								movieType:update_vue.m.movieType,
+								movieTime:update_vue.m.movieTime,
+								movieInformation:update_vue.m.movieInformation,
+								movieDate:update_vue.m.movieDate
+							},
+							success:function(response){
+								if(response.result=="success"){
+									alert("修改成功")
+									movie_vue.LoadData(p,10)
+								}else{
+									alert("修改失败，请重试")
+								}
+							}
+						});
+					}
+				}
+			})
+		}
+		/**影片放映安排vue
+		 * 
+		 */
+		function plan_vue_model(){
+			plan_vue=new Vue({
+				el:"#plan_vue",
+				data:{
+					plan:[],
+					room:[],
+					roomid:0,
+					isshow:false,
+					month:"",
+					time:"",
+					price:0,
+					movieid:0,
+					dt:""
+				},
+				computed:{
+					datatime:function(){
+						dt=this.month+' '+this.time;
+					}
+				},
+				methods:{
+					addPlan:function(){
+						$.ajax({
+							type:"post",
+							url:"",
+							async:true,
+							data:{
+								MovieId:plan_vue.movieid,
+								RoomId:plan_vue.roomid,
+								Price:plan_vue.price,
+								PlanTime:plan_vue.dt
+							},
+							success:function(response){
+								if(response.result=="success"){
+									this.$Notice.success({
+                    					title: '添加成功!',
+                    					duration: 1
+                					});
+								}else{
+							//		this.$Notice.error({
+                    			//		title: '添加失败!',
+                    				//	duration: 1
+                					//});
+									alert("xx");
+								}
+							}
+						});
+					}
+				}
+			})
+		}
+		
+    	function add(){
+    		location.href="AddMovie.html";
+    	}
+    </script>
+</head>
+<body>
+<div id="movie_user_vue">
+ 	<div class="panel admin-panel">
+    	<div class="panel-head">
+    		<strong class="icon-reorder"> 影片信息</strong>  		
+   		</div>
+   		<span>影片查询:&nbsp;</span><input v-model="moviename" v-on:keyup="movielike()"  />
+   		<!--
+           	作者：offline
+           	时间：2018-04-19
+           	描述：影片信息vue
+           -->
+  		
+    		<table class="table table-hover text-center">
+      			<thead>
+      			<tr>   
+        			<th>编号</th>   
+        			<th>电影名称</th>
+        			<th>拍摄国家</th>
+      			  	<th>影片主演</th>
+        			<th>影片导演</th>
+        			<th>影片类型</th>
+        			<th>影票时长</th>
+        			<th>影片简介</th>
+        			<th width="25%">上映时间</th>
+        			<th>查看排片</th>
+        			<th width="120" >操作</th>    
+      			</tr>
+      			</thead>     
+      			<tbody id="bd">
+       				<tr v-for="(m,index) in movie">
+       					<td>{{index+1}}</td>
+       					<td>{{m.movieName}}</td>
+       					<td>{{m.country}}</td>
+       					<td>{{m.movieActor}}</td>
+       					<td>{{m.movieDirector}}</td>
+       					<td>{{m.movieType}}</td>
+       					<td>{{m.movieTime}}</td>
+       					<td>{{m.movieInformation}}</td>
+       					<td>{{mDate(m.movieDate)}}</td>
+       					<td>
+       						<input type="button" value="查看" v-on:click="selPlan(index)" />
+       					</td>
+       					<td>
+       						<input type="button" value="修改" v-on:click="update(index)"/>
+       						<input type="button" value="删除" v-on:click="del(index)" />
+       					</td>
+       				</tr>
+      			</tbody>  
+    		</table>
+    	</div>
+    	<Page :total='dataCount'  show-elevator show-total :page-size='10' class='page' @on-change='change'></Page>
+  		<input type="button" class="dl" value="添加影片" onclick="add()"></input> 
+</div>
+	<!--
+		作者：offline
+		时间：2018-04-19
+		描述：信息修改vue
+	-->
+	<div id="update_vue"  class="table table-hover text-center">
+		<modal title="影片信息" v-model="isshow" width="600px" @on-ok="updmovie()">
+			<dl>
+				<dt>电影名称</dt><dd><input v-model="m.movieName"/></dd>
+				<dt>拍摄国家</dt><dd><input v-model="m.country"/></dd>
+				<dt>影片主演</dt><dd><input v-model="m.movieActor"/></dd>
+				<dt>影片导演</dt><dd><input v-model="m.movieDirector" /></dd>
+				<dt>影片类型</dt><dd><input v-model="m.movieType"/></dd>
+				<dt>影片时长</dt><dd><input v-model="m.movieTime"/></dd>
+				<dt>影片简介</dt><dd><textarea v-model="m.movieInformation"></textarea> </dd>
+				<dt>上映时间</dt><dd><input type="date" v-model="m.movieDate"/></dd>
+			</dl>
+		</modal>
+	</div>
+	
+	<div id="plan_vue" class="table table-hover text-center">
+		<modal title="放映安排" v-model="isshow" width="800px">
+			<table class="table table-hover text-center">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>电影名称</th>
+						<th>放映厅</th>
+						<th>放映时间</th>
+						<th>票价</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(p,index) in plan">
+						<td>{{index+1}}</td>
+						<td>{{p.movieId.movieName}}</td>
+						<td>{{p.roomId.roomName}}</td>
+						<td>{{p.planTime}}</td>
+						<td>{{p.moviePrice}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<label>放映厅选择</label>
+			<i-select v-model="roomid" style="width: 150px;" >
+				<i-option v-for="r in room" v-bind:value="r.roomId" >{{r.roomName}}</i-option>
+			</i-select>
+			<Date-Picker v-model="month" style="width: 150px;"  type="date" placeholder="Select date" style="width: 200px"></Date-Picker>
+			<Time-Picker v-model="time" style="width: 150px;"  format="HH:mm" placeholder="Select time" style="width: 112px"></Time-Picker>
+			<label>影票价格</label>
+			<i-input style="width: 150px;"  v-model="price"></i-input><br />
+			<input type="button" style="width: 80px;" v-on:click="addPlan()"  value="添加安排"></i-input>
+		</modal>
+	</div>
+
+
+</body>
+</html>

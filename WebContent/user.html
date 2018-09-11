@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript">
+			function sel(){
+				var uname=$("#username").val();
+				var pwd=$("#pwd").val();
+				$.ajax({
+					type:"get",
+					url:"/fsMovieSystem/user/Login.ssm",
+					async:true,
+					data:{
+						LoginName:uname,
+						Password:pwd
+					},
+					success:function(data){
+						var ss=data;
+						console.log(ss);
+					}
+				});
+			}
+			
+		</script>
+	</head>
+	<body>
+		用户名:<input type="text" id="username" />
+		密码:<input type="password" id="pwd" />
+		<input type="button" id="sel" onclick="sel()" value="测试" />
+	</body>
+</html>

@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>浮生影片 - 浮生在线影院</title>
+		<link rel="stylesheet" type="text/css" href="../iview/iview.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="shortcut icon" href="../img/favicon.ico" />
+		<link type="text/css" rel="stylesheet" href="../css/hbc.css"  />
+		<script type="text/javascript" src="../js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../js/jquery.form.js" ></script>
+		<script type="text/javascript" src="../js/hbc.common.js" ></script>
+		<script type="text/javascript" src="../js/common-utils.js" ></script>
+		<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript" src="../iview/iview.min.js"></script>
+		<style type="text/css">
+			body{
+				 
+			}
+		</style>
+		<script type="text/javascript">
+			var data;
+			var booked_vue;
+			var userid;
+			$(function() {
+				userid=sessionStorage.getItem("userid");
+				var uname = sessionStorage.getItem("uname");
+				if(uname == null) {
+					$(".isdeng").attr("style", "display: none;");
+					$(".nodeng").attr("style", "display: block;")
+				} else {
+					$(".isdeng").attr("style", "display: block;");
+					$(".isdeng").text("您好," + uname);
+					$(".nodeng").attr("style", "display: none;")
+				}
+				booked_vue_model();
+				booked_vue.loadData();
+			})
+			/*
+			 * 订单vue
+			 */
+			function booked_vue_model(){
+				booked_vue=new Vue({
+					el:"#booked_vue",
+					data:{
+						booked:[],
+						bookedId:0
+					},
+					methods:{
+						loadData:function(){
+							$.ajax({
+								type:"get",
+								url:"/fsMovieSystem/booked/selectBookedByUserId.ssm",
+								async:false,
+								data:{
+									UserId:userid
+								},
+								success:function(response){
+									console.log(response);
+									booked_vue.booked=response
+								}
+							});
+						},
+						ReturnSeat:function(seatNum){
+							var str=seatNum.split("-");
+							var s1=parseInt(str[0]);
+							var s2=parseInt(str[1]);
+							return (s1+1)+"排"+(s2+1)+"座";
+						},
+						del:function(bId){
+							$.ajax({
+								type:"get",
+								url:"/fsMovieSystem/booked/delBooked.ssm",
+								data:{
+									BookedId:bId
+								},
+								async:false,
+								success:function(response){
+									if(response.result=="success"){
+										alert("删除成功");
+										booked_vue.loadData();
+									}else{
+										alert("删除失败")
+							            LoadData();
+									}
+								}
+							});
+						}
+					}
+				})
+			}
+			
+	
+			
+			
+			
+			
+		</script>
+
+	</head>
+
+	<body>
+	
+		<!--顶端部分 开始-->
+		<div id="header">
+			<!--顶端部分 开始-->
+			<div id="header">
+				<!--顶端菜单 开始-->
+				<div id="top_bar">
+
+				</div>
+				<div id="menu_bar">
+					<div id="menu_con">
+						<!--<a href="index.htm" tppabs="http://www.hbcinemas.com.cn/" id="hbc_logo"><img src="img/hbc-logo.png" tppabs="http://www.hbcinemas.com.cn/img/hbc-logo.png" alt="华谊兄弟影院官网" width="126" height="56" />
+			</a>-->
+						<ul id="menu">
+							<li>
+								<a href="index.html" >首页</a>
+							</li>
+
+							<li>
+								<a href="MyBooked.html" class="cur">我的订单</a>
+							</li>
+							<li>
+								<a href="MyReview.html">我的影评</a>
+							</li>
+							<li>
+								<a href="MyAllNews.html">个人信息</a>
+							</li>
+							<li>
+								<a href="login.html">会员</a>
+							</li>
+							<!-- <li><a href="/zixun.html">信息咨讯</a></li> -->
+						</ul>
+						<div id="menu_right">
+							<a href="register.html">注册</a><span class="diver">&nbsp;</span>
+							<a href="login.html" class="nodeng">登录</a>
+							<span class="isdeng"></span>
+						</div>
+
+					</div>
+				</div>
+				<!--顶端菜单 结束-->
+			</div>
+			<script type="text/javascript" src="../js/jquery.validate.js" ></script>
+			<script src="../js/jquery.validate.wrapper.js" type="text/javascript"></script>
+			<!--主体头部-->
+			<div id="con_header">
+				<div id="con_header_inner">
+
+					<!--主标题-->
+					<div id="main_title">
+						<h1>用户订单</h1>
+					</div>
+					<!--主标题 结束-->
+				</div>
+			</div>
+			<!--主体头部 结束-->
+
+			<!-- 核心内容 -->
+			<div class="container"  >
+				<div class="movie_info bdr_t mart_20">
+					<div id="data_loading_mask">
+						<div id="data_loading_anim"></div>
+					</div>
+					<div id="booked_vue">	
+						<div id="scheduleDiv" style="height: 500px; overflow-y: auto; "  >
+							<table cellpadding="0" cellspacing="0" border="0" class="arrangement_table" id="arragement_data">
+								<thead>
+									<tr>
+										<th>放映场次</th>
+										<th>电影名称</th>
+										<th>放映厅号</th>
+										<th>座位号</th>									
+										<th>放映时间</th>
+										<th>价格</th>
+										<th>操作</th>
+									</tr>
+								</thead> 
+								<tbody id="bd"  >
+									<tr v-for="b in booked">
+										<td>{{b.planId.planId}}</td>
+										<td>{{b.planId.movieId.movieName}}</td>
+										<td>{{b.planId.roomId.roomName}}</td>
+										<td>{{ReturnSeat(b.seatNum)}}</td>
+										<td>{{b.planId.planTime}}</td>
+										<td>{{b.planId.moviePrice}}</td>
+										<td><input type="button" value="退订" v-on:click="del(b.bookedId)" class="btn_red_smal"/></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab_menu_s"></div>
+				</div>
+			</div>
+			<!-- 核心内容 结束 -->
+
+			<div id="footer">
+				<div id="footer_con">
+					<p align="center">
+						<a href="aboutus.html" >关于我们</a>&nbsp;|&nbsp;
+						<a href="contactus.html" >联系我们</a>&nbsp;|&nbsp;
+						<a>京ICP备74874213号</a>&nbsp;|&nbsp;
+						<a>京ICP证321564478号</a>
+					</p>
+					<p align="center">
+						<a href="index.html" class="footer_social_sina" target="_blank">浮生影院官方微博</a>
+					</p>
+					<p align="center">© 2017 沈阳环球影院管理有限公司 </p>
+					<p align="center">Copyright © 2015 HBC Incorporated. All rights reserved.</p>
+					<p align="center">地址：沈阳市和平区远东大厦2楼 总机：024-27732469 </p>
+					<div style="margin:12px auto;width:30px;padding-top:8px;">
+
+					</div>
+				</div>
+			</div>
+	</body>
+
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zym.mapper.PlanMapper">
+	<resultMap type="zym.domain.Plan" id="plan">
+		<id property="PlanId" column="PlanId"/>
+		<result property="PlanTime" column="PlanTime"/>
+		<result property="MoviePrice" column="MoviePrice"/>
+		<association property="MovieId" select="getMovie" column="MovieId" javaType="zym.domain.Movie">
+		</association>
+		<association property="RoomId" select="getRoom" column="RoomId" javaType="zym.domain.Room">
+		</association>
+	</resultMap>
+	<!-- 根据放映编号查询放映安排，影片类型，放映厅座位数 -->	
+		<select id="selectPlanByMovieId" resultMap="plan">
+			select *from plan where movieid=#{MovieId}
+		</select>
+		
+		<select id="getMovie" parameterType="int" resultType="zym.domain.Movie">
+			select * from movie where movieid=#{MovieId}
+		</select>
+		
+		<select id="getRoom" parameterType="int" resultType="zym.domain.Room">
+			select * from room where roomid=#{RoomId}
+		</select>
+		
+		<!-- 查询该场次已售座位数 -->
+	<select id="selectCountSeat" resultType="int">
+		select count(*) from booked where planid=#{planid}
+	</select>
+	
+	<insert id="addPlan" parameterType="zym.domain.Plan">
+		insert into Plan values(default,#{plan.MovieId.MovieId},#{plan.RoomId.RoomId},#{plan.PlanTime},#{plan.MoviePrice})
+	</insert>
+</mapper>
